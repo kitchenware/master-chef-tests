@@ -18,6 +18,15 @@ class TestJenkins < Test::Unit::TestCase
       sleep 2      
     end
     assert_true ok
+    crons = @vm.capture("ls /etc/cron.d").split("\n")
+    assert_true crons.include?("munin-update")
+    @vm.run "sudo touch /etc/cron.d/a"
+    @vm.run_chef
+    new_crons = @vm.capture("ls /etc/cron.d").split("\n")
+    assert_equal crons, new_crons
+    @http.get 80, "/jenkins/"
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /New Job/
   end
 
 end

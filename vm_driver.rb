@@ -19,6 +19,12 @@ class VmDriver
     end
   end
 
+  def capture cmd
+    result = `#{format_chef_ssh(cmd)}`
+    raise "ssh capture #{CHEF_USER} : #{cmd} failed. Aborting..." unless $?.exitstatus == 0
+    result
+  end
+
   def run_chef
     run "/etc/chef/update.sh"
   end
