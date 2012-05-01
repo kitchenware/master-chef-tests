@@ -1,7 +1,6 @@
 conf 1
 
 * base system
-* chef-solo scripts
 * confluence
 * tomcat
 * tomcat instance
@@ -26,7 +25,6 @@ conf 2
 conf 3
 
 * base system
-* chef-solo scripts
 * redmine
 * ruby / unicorn deployment
 * mysql
