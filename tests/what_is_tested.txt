@@ -30,6 +30,7 @@ conf 3
 * mysql
 * mysql database auto config
 * nginx location on vhost
+* mutiple locales
 
 conf 4
 
