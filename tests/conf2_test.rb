@@ -27,6 +27,8 @@ class TestJenkins < Test::Unit::TestCase
     @http.get 80, "/jenkins/"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /New Job/
+    catalina_out = @vm.capture("cat /var/log/tomcat/jenkins/catalina.out")
+    assert_not_match /n production environments was not found/, catalina_out
   end
 
 end
