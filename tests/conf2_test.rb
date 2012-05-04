@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'helper.rb')
 
-class TestJenkins < Test::Unit::TestCase
+class TestConf2 < Test::Unit::TestCase
 
   include VmTestHelper
 

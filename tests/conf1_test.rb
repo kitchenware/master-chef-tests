@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'helper.rb')
 
-class TestConfluence < Test::Unit::TestCase
+class TestConf1 < Test::Unit::TestCase
 
   include VmTestHelper
 

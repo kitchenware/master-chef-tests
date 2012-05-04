@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'helper.rb')
 
-class TestRedmine < Test::Unit::TestCase
+class TestConf3 < Test::Unit::TestCase
 
   include VmTestHelper
 
