@@ -8,9 +8,14 @@
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
     "recipe[munin::local]",
+    "recipe[java::java_sun_java6]",
+    "recipe[java::java_oracle_java7]",
     "recipe[cron]",
     "recipe[jenkins]"
   ],
   "node_config": {
+    "java": {
+        "default_version" : "oracle_java7"
+    }
   }
 }

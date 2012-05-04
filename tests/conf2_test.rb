@@ -29,6 +29,11 @@ class TestJenkins < Test::Unit::TestCase
     @http.assert_last_response_body_regex /New Job/
     catalina_out = @vm.capture("cat /var/log/tomcat/jenkins/catalina.out")
     assert_not_match /n production environments was not found/, catalina_out
+    java_version = @vm.capture("java -version 2>&1")
+    assert_match /1.7.0_04/, java_version
+    @http.get 80, "/jenkins/systemInfo"
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /1\.7\.0_04/
   end
 
 end

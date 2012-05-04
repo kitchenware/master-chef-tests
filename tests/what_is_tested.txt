@@ -21,6 +21,7 @@ conf 2
 * TO BE DONE nginx http basic auth
 * munin-node
 * remove useless cron file in /etc/cron.d
+* install two jdk and use jdk7 as default
 
 conf 3
 
