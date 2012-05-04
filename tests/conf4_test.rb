@@ -6,7 +6,7 @@ class TestRedmine < Test::Unit::TestCase
 
   def test_conf3
     @vm.upload_json "conf4.json"
-    # @vm.run_chef
+    @vm.run_chef
     @http.get 8080, "/toto"
     @http.assert_last_response_code 404
     assert_match /Coyote/, @http.response["Server"]
