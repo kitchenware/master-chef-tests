@@ -1,0 +1,44 @@
+{
+  "repos": {
+    "git": [
+      "git://github.com/octo-technology/master-chef.git"
+    ]
+  },
+  "run_list": [
+    "recipe[base::system]",
+    "recipe[master_chef::chef_solo_scripts]",
+    "recipe[tomcat]",
+    "recipe[mysql]",
+    "recipe[php5::apache2]",
+    "recipe[php5::phpinfo]"
+  ],
+  "node_config": {
+    "php5": {
+      "apache2": {
+        "default_mimetype": "abcd123"
+      },
+      "modules": ["mysql"]
+    },
+    "tomcat": {
+      "instances": {
+        "my_instance": {
+          "connectors": {
+            "http": {
+              "address": "0.0.0.0",
+              "port": 8080
+            }
+          }
+        }
+      }
+    },
+    "mysql": {
+      "databases": {
+        "test": {
+          "host": "localhost",
+          "username": "toto",
+          "password": "titi"
+        }
+      }
+    }
+  }
+}

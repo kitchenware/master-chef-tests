@@ -38,10 +38,18 @@ conf 4
 
 * base system
 * chef-solo scripts
+* instance tomcat on port 8080
+* mysql database manual config
+* php5 stack and php_info(), with mimetype override and mysql module
+
+conf 5
+
+* base system
+* chef-solo scripts
 * TO BE DONE sonar
 * TO BE DONE tomcat
 * TO BE DONE tomcat instance auto config
-* TO BE DONE mysql database manual config
+* TO BE DONE mysql database auto config
 * TO BE DONE nexus
 * TO BE DONE tomcat instance auto config
 * TO BE DONE nginx
