@@ -6,7 +6,7 @@ class TestConf3 < Test::Unit::TestCase
 
   def test_conf3
     @vm.upload_json "conf3.json"
-    # @vm.run_chef
+    @vm.run_chef
     @http.get 80, "/redmine"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /Redmine/
