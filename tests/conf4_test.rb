@@ -1,10 +1,10 @@
 require File.join(File.dirname(__FILE__), '..', 'helper.rb')
 
-class TestRedmine < Test::Unit::TestCase
+class TestConf4 < Test::Unit::TestCase
 
   include VmTestHelper
 
-  def test_conf3
+  def test_conf4
     @vm.upload_json "conf4.json"
     @vm.run_chef
     @http.get 8080, "/toto"
