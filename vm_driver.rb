@@ -26,7 +26,11 @@ class VmDriver
   end
 
   def run_chef
-    run "/etc/chef/update.sh"
+    if ENV["CHEF_LOCAL"]
+      exec_local "../../runtime/chef_local.rb #{ip}"
+    else
+      run "/etc/chef/update.sh"
+    end
   end
 
   def upload_json json
