@@ -10,7 +10,7 @@ class TestConf4 < Test::Unit::TestCase
     @http.get 8080, "/toto"
     @http.assert_last_response_code 404
     assert_match /Coyote/, @http.response["Server"]
-    @vm.run "\"echo 'SELECT 1;' | mysql --user=toto --password=titi test\" > /dev/null"
+    @vm.run "\"echo 'SELECT 1;' | mysql --user=toto --password=titi db_test\" > /dev/null"
     @http.get 80, "/"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /It works!/

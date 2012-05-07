@@ -33,7 +33,7 @@
     },
     "mysql": {
       "databases": {
-        "test": {
+        "db_test": {
           "host": "localhost",
           "username": "toto",
           "password": "titi"
