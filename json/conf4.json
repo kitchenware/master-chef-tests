@@ -10,9 +10,22 @@
     "recipe[tomcat]",
     "recipe[mysql]",
     "recipe[php5::apache2]",
-    "recipe[php5::phpinfo]"
+    "recipe[php5::phpinfo]",
+    "recipe[rails]"
   ],
   "node_config": {
+    "additional_packages": ["build-essential", "libmysqlclient-dev"],
+    "ssh_keys": {
+      "deploy": {
+        "users": "user1",
+        "keys": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+IxWmprlBa0jQtWH3BQAwKKm/cBdcW+pJn9wbsaciZyx0A3xkrGk6Ef8w6UsvhqSPnLPuOI16pZ5JgrU5XTKDyqkGpczJrhDbSUqj2zBegMxYS1wEPbnCBLsUB/6S/Dckx/X00LPCj1rlGAa38I9BrLlTIB+bZuWe0CsIU89IefU7kNnRlczJ2HvDLeXs5mWBrKvYwWsL1HL5IXf3Wb1RqsJ3q3W5An/pFDANMQ2UfZG23zl9sZG7mRFp2s1oR4SrvJ/TJy/1cwci5ErxejqrH1pqwvKbLEHvyUPe6JJMYBFuRb9UMbD/TAHxdiklqg1V+P1M3OipfWnMVOnvZRTN master-chef"]
+      }
+    },
+    "nginx": {
+      "default_vhost": {
+        "listen": "0.0.0.0:81"
+      }
+    },
     "php5": {
       "apache2": {
         "default_mimetype": "abcd123"
@@ -38,6 +51,13 @@
           "username": "toto",
           "password": "titi"
         }
+      }
+    },
+    "rails_app": {
+      "app_test": {
+        "user": "user1",
+        "app_directory": "/toto",
+        "mysql_database": "mysql:databases:db_test"
       }
     }
   }

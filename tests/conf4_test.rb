@@ -19,6 +19,22 @@ class TestConf4 < Test::Unit::TestCase
     @http.assert_last_response_body_regex /PHP Version/
     @http.assert_last_response_body_regex /abcd123/
     @http.assert_last_response_body_regex /mysql/
+
+    exec_local "cd #{File.join(File.dirname(__FILE__), "..", "conf4")} && TARGET=#{@vm.ip} cap deploy"
+
+    @http.get 81, "/toto"
+    @http.assert_last_response_code 404
+    @http.assert_last_response_body_regex /This is a 404 page./
+
+    @http.get 81, "/show"
+    @http.assert_last_response_code 200
+    assert @http.response.body =~ /counter : (\d+)/
+
+    counter = $1.to_i + 1
+
+    @http.get 81, "/show"
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /counter : #{counter}/
   end
 
 end

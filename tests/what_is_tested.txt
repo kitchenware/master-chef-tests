@@ -41,6 +41,8 @@ conf 4
 * instance tomcat on port 8080
 * mysql database manual config
 * php5 stack and php_info(), with mimetype override and mysql module
+* deploy conf4 app_test rails app in nginx port 81
+* test 404 management for nginx rails app
 
 conf 5
 
