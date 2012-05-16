@@ -48,10 +48,10 @@ conf 5
 
 * base system
 * chef-solo scripts
-* TO BE DONE sonar
-* TO BE DONE tomcat
-* TO BE DONE tomcat instance auto config
-* TO BE DONE mysql database auto config
-* TO BE DONE nexus
-* TO BE DONE tomcat instance auto config
-* TO BE DONE nginx
+* sonar
+* tomcat
+* tomcat instance auto config
+* mysql database auto config
+* nexus
+* tomcat instance auto config
+* nginx
