@@ -6,6 +6,8 @@ set :repository, File.join(File.dirname(__FILE__), "..")
 set :deploy_to, "/toto"
 set :user, "user1"
 
+use_http_proxy = ENV["PROXY"] ? "export http_proxy=http://#{ENV["PROXY"]} && " : ""
+
 server ENV["TARGET"], :app, :db
 
 ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "..", "ssh", "id_rsa")]
@@ -13,11 +15,11 @@ ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "..", "ssh", "id_r
 namespace :deploy do
 
   task :bundler, :roles => :app do
-    run "cd #{release_path} && . $HOME/.warp/common/ruby/include && rbenv warp install-ruby && gem list | grep bundle || gem install bundler"
+    run "#{use_http_proxy} cd #{release_path} && . $HOME/.warp/common/ruby/include && rbenv warp install-ruby && gem list | grep bundle || gem install bundler"
   end
 
   task :bundle, :roles => :app do
-    run "cd #{release_path} && . $HOME/.warp/common/ruby/include && bundle --without development"
+    run "#{use_http_proxy} cd #{release_path} && . $HOME/.warp/common/ruby/include && bundle --without development"
   end
 
   task :symlinks, :roles => :app do
