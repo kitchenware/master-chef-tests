@@ -7,6 +7,7 @@ class TestConf2 < Test::Unit::TestCase
   def test_conf2
     @vm.upload_json "conf2.json"
     @vm.run_chef
+    @vm.wait_tcp_port @vm.read_chef_local_storage("tomcat:control_port:jenkins"), 300, 10
     ok = false
     (1..20).each do |k|
       @http.get 80, "/jenkins/"
