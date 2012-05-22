@@ -2,8 +2,8 @@
 module WaitHelper
 
   def wait message, timeout = 30, interval = 5
-    i = 0
-    while i < timeout / interval
+    stop = Time.now.to_i + timeout
+    while stop > Time.now.to_i
       begin
         yield
         return
@@ -12,7 +12,7 @@ module WaitHelper
         sleep interval
       end
     end
-    raise "Timeout #{message}"
+    raise "Timeout : #{message}"
   end
 
 end
