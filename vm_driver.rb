@@ -38,25 +38,5 @@ class VmDriver
     exec_local "scp #{SSH_OPTS} #{json_file} #{CHEF_USER}@#{ip}:/tmp/local.json"
     self.run "sudo mv /tmp/local.json /etc/chef/local.json"
   end
-
-  def read_chef_local_storage key
-    local_storage = YAML.load(capture("sudo cat /var/chef/local_storage.yml"))
-    key.split(":").each do |k|
-      local_storage = local_storage[k.to_sym]
-    end
-    local_storage
-  end
-
-  def wait_tcp_port tcp_port, timeout = 30, interval = 5
-    i = 0
-    while i < timeout / interval
-      system format_chef_ssh("sudo netstat -nltp | grep #{tcp_port} > /dev/null")
-      return if $?.exitstatus == 0
-      i += 1
-      puts "Wait for TCP port #{tcp_port}"
-      sleep interval
-    end
-    raise "TCP port #{tcp_port} not open after #{timeout} seconds"
-  end
-
+    
 end
