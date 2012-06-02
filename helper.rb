@@ -22,7 +22,7 @@ module VmTestHelper
   end
 
   def teardown
-    @vm.destroy if @vm
+    @vm.destroy if @vm && !ENV['DO_NOT_DESTROY_VM']
   end
 
 end
