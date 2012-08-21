@@ -62,3 +62,6 @@ conf 6
 * base system
 * chef-solo scripts
 * deploy a simple nodejs application
+* TO BE DONE deploy graphite
+* TO BE DONE deploy collectd
+* TO BE DONE check collectd to graphite

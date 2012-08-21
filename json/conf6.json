@@ -7,13 +7,23 @@
   "run_list": [
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
-    "recipe[nodejs]"
+    "recipe[nodejs]",
+    "recipe[collectd]",
+    "recipe[graphite]",
+    "recipe[graphite::bucky]"
   ],
   "node_config": {
     "ssh_keys": {
       "deploy": {
         "users": "nodejs",
         "keys": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+IxWmprlBa0jQtWH3BQAwKKm/cBdcW+pJn9wbsaciZyx0A3xkrGk6Ef8w6UsvhqSPnLPuOI16pZ5JgrU5XTKDyqkGpczJrhDbSUqj2zBegMxYS1wEPbnCBLsUB/6S/Dckx/X00LPCj1rlGAa38I9BrLlTIB+bZuWe0CsIU89IefU7kNnRlczJ2HvDLeXs5mWBrKvYwWsL1HL5IXf3Wb1RqsJ3q3W5An/pFDANMQ2UfZG23zl9sZG7mRFp2s1oR4SrvJ/TJy/1cwci5ErxejqrH1pqwvKbLEHvyUPe6JJMYBFuRb9UMbD/TAHxdiklqg1V+P1M3OipfWnMVOnvZRTN master-chef"]
+      }
+    },
+    "collectd": {
+      "plugins": {
+        "network": {
+          "config": "Server \"localhost\" \"25826\""
+        }
       }
     },
     "nodejs_app": {
