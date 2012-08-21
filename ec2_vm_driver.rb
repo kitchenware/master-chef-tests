@@ -21,7 +21,7 @@ class Ec2VmDriver < VmDriver
       sleep(1)
       %x(nc -v -w 2 -z #{@node.public_ip_address} 22 2>&1 > /dev/null)
     end while $? != 0
-    sleep 1
+    sleep 5
     puts "Server reachable #{@node.id}, ip #{@node.public_ip_address}."
   end
 
