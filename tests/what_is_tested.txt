@@ -56,3 +56,9 @@ conf 5
 * nexus
 * tomcat instance auto config
 * nginx
+
+conf 6
+
+* base system
+* chef-solo scripts
+* deploy a simple nodejs application

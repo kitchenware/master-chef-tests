@@ -1,0 +1,31 @@
+require 'rubygems'
+require 'railsless-deploy'
+
+set :application, "nodejs_app_test"
+
+set :scm, :none
+set :deploy_via, :copy
+set :repository, File.dirname(__FILE__)
+set :deploy_to, "/home/nodejs/#{application}"
+set :user, "nodejs"
+
+server ENV["TARGET"], :app
+
+ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "ssh", "id_rsa")]
+
+namespace :deploy do
+
+  task :warp, :roles => :app do
+    prefix = ENV["NO_WARP"] ? "NO_WARP=#{ENV['NO_WARP']} " : ""
+    run "cd #{release_path} && #{prefix} $HOME/.warp/client/node/install.sh"
+  end
+
+  task :restart, :roles => :app do
+    run "/etc/init.d/#{application} restart"
+  end
+
+end
+
+after 'deploy:finalize_update', 'deploy:warp'
+
+after 'deploy', 'deploy:restart'
