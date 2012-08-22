@@ -5,6 +5,7 @@ set :application, "nodejs_app_test"
 
 set :scm, :none
 set :deploy_via, :copy
+set :copy_compression, :bz2
 set :repository, File.dirname(__FILE__)
 set :deploy_to, "/home/nodejs/#{application}"
 set :user, "nodejs"
