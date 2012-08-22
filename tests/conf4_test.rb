@@ -42,6 +42,11 @@ class TestConf4 < Test::Unit::TestCase
     @http.get 81, "/show"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /counter : #{counter}/
+
+    # check static files are served by nginx, without unicorn
+    @http.get 81, "/my_file.txt"
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /static content/
   end
 
 end
