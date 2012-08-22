@@ -10,7 +10,8 @@
     "recipe[nodejs]",
     "recipe[collectd]",
     "recipe[graphite]",
-    "recipe[graphite::bucky]"
+    "recipe[graphite::bucky]",
+    "recipe[graphite::statsd]"
   ],
   "node_config": {
     "ssh_keys": {
