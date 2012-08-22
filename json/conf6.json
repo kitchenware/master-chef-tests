@@ -14,6 +14,7 @@
     "recipe[graphite::statsd]"
   ],
   "node_config": {
+    "additional_packages": ["bzip2"],
     "ssh_keys": {
       "deploy": {
         "users": "nodejs",
