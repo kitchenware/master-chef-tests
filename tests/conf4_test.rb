@@ -7,10 +7,16 @@ class TestConf4 < Test::Unit::TestCase
   def test_conf4
     @vm.upload_json "conf4.json"
     @vm.run_chef
+
+    # check tomcat deployment
     @http.get 8080, "/toto"
     @http.assert_last_response_code 404
     assert_match /Coyote/, @http.response["Server"]
+
+    # check mysql config
     @vm.run "\"echo 'SELECT 1;' | mysql --user=toto --password=titi db_test\" > /dev/null"
+
+    # check apache and php deployment
     @http.get 80, "/"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /It works!/
@@ -20,6 +26,7 @@ class TestConf4 < Test::Unit::TestCase
     @http.assert_last_response_body_regex /abcd123/
     @http.assert_last_response_body_regex /mysql/
 
+    # deploy and chef rails app
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "conf4")} && TARGET=#{@vm.ip} cap deploy"
 
     @http.get 81, "/toto"

@@ -31,7 +31,7 @@ namespace :deploy do
   end
 
   task :restart, :roles => :app do
-    run "/etc/init.d/app_test restart"
+    run "/etc/init.d/#{application} restart"
   end
 
 end

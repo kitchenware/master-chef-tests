@@ -54,7 +54,7 @@
       }
     },
     "rails_app": {
-      "app_test": {
+      "conf4": {
         "user": "user1",
         "app_directory": "/toto",
         "mysql_database": "mysql:databases:db_test"
