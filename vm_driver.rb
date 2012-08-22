@@ -1,7 +1,7 @@
 
 SSH_CONFIG_FILE = File.join(File.dirname(__FILE__), "ssh", "config")
 SSH_KEY = File.join(File.dirname(__FILE__), "ssh", "id_rsa")
-SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY}"
+SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY} -o StrictHostKeyChecking=no"
 %x{chmod 0600 #{SSH_KEY}}
 %x{rm -f /tmp/tmp_known_hosts}
 
