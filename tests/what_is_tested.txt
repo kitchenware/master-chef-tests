@@ -65,4 +65,5 @@ conf 6
 * deploy graphite
 * deploy collectd
 * check collectd to graphite
-* deployad statsd and connect it to graphite
+* deploy statsd and connect it to graphite
+* deploy node-logstash and test it

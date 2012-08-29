@@ -11,7 +11,8 @@
     "recipe[collectd]",
     "recipe[graphite]",
     "recipe[graphite::bucky]",
-    "recipe[graphite::statsd]"
+    "recipe[graphite::statsd]",
+    "recipe[node_logstash]"
   ],
   "node_config": {
     "additional_packages": ["bzip2"],
@@ -33,6 +34,14 @@
         "user": "nodejs",
         "script": "http_server.js",
         "opts": "--http_port=12345"
+      }
+    },
+    "node_logstash": {
+      "configs": {
+        "test": [
+          "input://tcp://0.0.0.0:4567",
+          "output://file:///tmp/toto.log"
+        ]
       }
     }
   }

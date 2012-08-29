@@ -10,7 +10,7 @@ class TestConf6 < Test::Unit::TestCase
     @vm.upload_json "conf6.json"
     @vm.run_chef
 
-   # deploy and check node application
+    # deploy and check node application
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "nodejs_app_test")} && TARGET=#{@vm.ip} cap deploy"
 
     @http.get 12345, "/"
@@ -44,6 +44,16 @@ class TestConf6 < Test::Unit::TestCase
       @http.get 80, "/render/?target=stats.toto&rawData=csv"
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /stats.toto/
+    end
+
+    # check logstash
+    str = "titi_" + rand(9999999).to_s
+    s = TCPSocket.open(@vm.ip, 4567)
+    s.write(str);
+    s.close()
+
+    wait "Waiting node-logstash write data to toto.log", 20, 2 do
+      assert_match /#{str}/, @vm.capture("tail -n 1 /tmp/toto.log")
     end
 
   end
