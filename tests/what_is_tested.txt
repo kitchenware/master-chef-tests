@@ -62,6 +62,7 @@ conf 6
 * base system
 * chef-solo scripts
 * deploy a simple nodejs application
-* TO BE DONE deploy graphite
-* TO BE DONE deploy collectd
-* TO BE DONE check collectd to graphite
+* deploy graphite
+* deploy collectd
+* check collectd to graphite
+* deployad statsd and connect it to graphite
