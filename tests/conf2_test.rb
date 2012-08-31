@@ -33,7 +33,7 @@ class TestConf2 < Test::Unit::TestCase
 
     # Check multiple Java version
     java_version = @vm.capture("java -version 2>&1")
-    assert_match /1.7.0_04/, java_version
+    assert_match /1.7.0_07/, java_version
     @http.get 80, "/jenkins/systemInfo"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /1\.7\.0_04/
