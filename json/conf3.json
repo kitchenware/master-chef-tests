@@ -7,13 +7,35 @@
   "run_list": [
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
-    "recipe[redmine]"
+    "recipe[redmine]",
+    "recipe[node_logstash::server]",
+    "recipe[node_logstash]"
   ],
   "node_config": {
     "timezone": "Europe/Paris",
     "locales": {
         "list": ["en_US.UTF-8 UTF-8", "fr_FR.UTF-8 UTF-8"],
         "default_locale": "fr_FR.UTF-8"
+    },
+    "apache2": {
+      "default_vhost": {
+        "listen": "127.0.0.1:81"
+      }
+    },
+    "nginx": {
+      "proxy_locations": {
+        "kibana": {
+          "content": "location /kibana {\nproxy_pass http://localhost:81;\n}"
+        }
+      }
+    },
+    "node_logstash": {
+      "configs": {
+        "test": [
+          "input://file:///tmp/toto.log",
+          "output://elasticsearch://localhost:9200"
+        ]
+      }
     }
   }
 }

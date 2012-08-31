@@ -7,7 +7,7 @@ conf 1
 * tomcat http connector manual config
 * tomcat war rename for changing /toto
 * mysql
-* mysql database auto config
+* mysql database auto config (declared in confluence recipe)
 * nginx location on vhost
 
 conf 2
@@ -33,6 +33,10 @@ conf 3
 * nginx location on vhost
 * mutiple locales
 * change timezone to Europe/Paris
+* kibana / elastic search
+* apache on 127.0.0.1:81, and reverse proxy from nginx
+* proxy_location in nginx
+* logstash / elasticsearch / kibana integration
 
 conf 4
 
