@@ -36,7 +36,7 @@ class TestConf2 < Test::Unit::TestCase
     assert_match /1.7.0_07/, java_version
     @http.get 80, "/jenkins/systemInfo"
     @http.assert_last_response_code 200
-    @http.assert_last_response_body_regex /1\.7\.0_04/
+    @http.assert_last_response_body_regex /1\.7\.0_07/
   end
 
 end
