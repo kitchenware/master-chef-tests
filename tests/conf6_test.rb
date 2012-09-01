@@ -13,9 +13,11 @@ class TestConf6 < Test::Unit::TestCase
     # deploy and check node application
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "nodejs_app_test")} && TARGET=#{@vm.ip} cap deploy"
 
-    @http.get 12345, "/"
-    @http.assert_last_response_code 200
-    @http.assert_last_response_body_regex /Hello World/
+    wait "Waiting for nodejs app", 20, 2 do
+      @http.get 12345, "/"
+      @http.assert_last_response_code 200
+      @http.assert_last_response_body_regex /Hello World/
+    end
 
     hostname = @vm.capture("hostname").strip
 
