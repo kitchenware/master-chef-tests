@@ -31,7 +31,8 @@
         "default_mimetype": "abcd123"
       },
       "modules": ["mysql"],
-      "pear_modules": ["cache_lite"]
+      "pear_channels": ["pear.drush.org"],
+      "pear_modules": ["cache_lite", "drush/drush"]
     },
     "tomcat": {
       "instances": {

@@ -27,7 +27,8 @@ class TestConf4 < Test::Unit::TestCase
     @http.assert_last_response_body_regex /mysql/
 
     # check pear
-    @vm.run "pear list | grep Cache_Lite"
+    @vm.run "pear list-files Cache_Lite"
+    @vm.run "drush version"
 
     # deploy and chef rails app
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "conf4")} && TARGET=#{@vm.ip} cap deploy"
