@@ -32,7 +32,7 @@
       },
       "modules": ["mysql"],
       "pear_channels": ["pear.drush.org"],
-      "pear_modules": ["cache_lite", "drush/drush"]
+      "pear_modules": ["cache_lite", "console_table", "drush/drush"]
     },
     "tomcat": {
       "instances": {
