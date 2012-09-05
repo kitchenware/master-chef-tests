@@ -7,6 +7,8 @@ class TestConf1 < Test::Unit::TestCase
   def test_conf1
     @vm.upload_json "conf1.json"
     @vm.run_chef
+
+    # Check confluence
     @http.get 80, "/toto/setup/setuplicense.action"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /Confluence Setup Wizard/
