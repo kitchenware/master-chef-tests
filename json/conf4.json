@@ -30,7 +30,8 @@
       "apache2": {
         "default_mimetype": "abcd123"
       },
-      "modules": ["mysql"]
+      "modules": ["mysql"],
+      "pear_modules": ["cache_lite"]
     },
     "tomcat": {
       "instances": {
