@@ -25,7 +25,7 @@ class TestConf3 < Test::Unit::TestCase
 
     @vm.run "\"echo 'abcd' >> /tmp/toto.log\""
 
-    wait "Waiting data in kibana", 15, 1 do
+    wait "Waiting data in kibana", 60, 2 do
       @http.get 80, '/kibana/loader2.php?page=3'
       @http.assert_last_response_code 200
       json = JSON.parse @http.response.body
