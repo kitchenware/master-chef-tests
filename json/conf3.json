@@ -31,10 +31,15 @@
     },
     "node_logstash": {
       "configs": {
-        "test": [
-          "input://file:///tmp/toto.log",
+        "output": [
           "output://elasticsearch://127.0.0.1:9200"
         ]
+      },
+      "monitor_files": {
+        "toto": {
+          "files": ["/tmp/toto.log"],
+          "type": "titi"
+        }
       }
     }
   }

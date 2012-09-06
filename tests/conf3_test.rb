@@ -17,6 +17,11 @@ class TestConf3 < Test::Unit::TestCase
     date = @vm.capture("date -u && date").split("\n").map{|x| x =~ /^.*(\d\d:\d\d:\d\d).*$/; $1}
     assert_not_equal date[0], date[1]
 
+    # wait elastic search
+    wait "elastic search http port open", 30, 5 do
+      @vm.run("sudo netstat -nltp | grep 127.0.0.1:9300")
+    end
+
     # check kibana
     @http.get 80, '/kibana/loader2.php?page=3'
     @http.assert_last_response_code 200
@@ -25,7 +30,7 @@ class TestConf3 < Test::Unit::TestCase
 
     @vm.run "\"echo 'abcd' >> /tmp/toto.log\""
 
-    wait "Waiting data in kibana", 3000, 10 do
+    wait "Waiting data in kibana", 30, 5 do
       @http.get 80, '/kibana/loader2.php?page=3'
       @http.assert_last_response_code 200
       json = JSON.parse @http.response.body
