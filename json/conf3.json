@@ -25,7 +25,7 @@
     "nginx": {
       "proxy_locations": {
         "kibana": {
-          "content": "location /kibana {\nproxy_pass http://localhost:81;\n}"
+          "content": "location /kibana {\nproxy_pass http://127.0.0.1:81;\n}"
         }
       }
     },
@@ -33,7 +33,7 @@
       "configs": {
         "test": [
           "input://file:///tmp/toto.log",
-          "output://elasticsearch://localhost:9200"
+          "output://elasticsearch://127.0.0.1:9200"
         ]
       }
     }
