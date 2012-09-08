@@ -10,7 +10,7 @@ set :user, "user1"
 server ENV["TARGET"], :app, :db
 
 # do not copy these options
-ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "ssh", "id_rsa")]
+ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "..", "ssh", "id_rsa")]
 ssh_options[:paranoid] = false
 use_http_proxy = ENV["PROXY"] ? "export http_proxy=http://#{ENV["PROXY"]} && " : ""
 # end
