@@ -19,7 +19,7 @@ class TestConf3 < Test::Unit::TestCase
 
     # wait elastic search
     wait "elastic search http port open", 30, 5 do
-      @vm.run("sudo netstat -nltp | grep 127.0.0.1:9300")
+      @vm.run("sudo netstat -nltp | grep 127.0.0.1:9200")
     end
 
     # check kibana
