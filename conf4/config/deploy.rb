@@ -6,11 +6,14 @@ set :repository, File.join(File.dirname(__FILE__), "..")
 set :deploy_to, "/toto"
 set :user, "user1"
 
-use_http_proxy = ENV["PROXY"] ? "export http_proxy=http://#{ENV["PROXY"]} && " : ""
 
 server ENV["TARGET"], :app, :db
 
-ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "..", "ssh", "id_rsa")]
+# do not copy these options
+ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "ssh", "id_rsa")]
+ssh_options[:paranoid] = false
+use_http_proxy = ENV["PROXY"] ? "export http_proxy=http://#{ENV["PROXY"]} && " : ""
+# end
 
 namespace :deploy do
 
