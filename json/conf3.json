@@ -22,13 +22,6 @@
         "listen": "127.0.0.1:81"
       }
     },
-    "nginx": {
-      "proxy_locations": {
-        "kibana": {
-          "content": "location /kibana {\nproxy_pass http://127.0.0.1:81;\n}"
-        }
-      }
-    },
     "node_logstash": {
       "configs": {
         "output": [
