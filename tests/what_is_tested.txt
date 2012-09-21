@@ -27,6 +27,7 @@ conf 3
 
 * base system
 * redmine
+* rails app restart
 * ruby / unicorn deployment
 * mysql
 * mysql database auto config
