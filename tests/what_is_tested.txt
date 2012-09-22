@@ -18,7 +18,7 @@ conf 2
 * tomcat
 * tomcat http connector auto config with specific connector params
 * nginx location on vhost
-* TO BE DONE nginx http basic auth
+* nginx http basic auth
 * munin-node
 * remove useless cron file in /etc/cron.d
 * install two jdk and use jdk7 as default

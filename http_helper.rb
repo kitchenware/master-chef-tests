@@ -10,9 +10,15 @@ class HttpTester
     @vm = vm
   end
 
-  def get port, path
+  def get port, path, user = nil, password = nil
     uri = URI.parse "http://#{@vm.ip}:#{port}#{path}"
-    @response = Net::HTTP.get_response(uri)
+    req = Net::HTTP::Get.new(uri.request_uri)
+
+    req.basic_auth user, password if user && password
+
+    @response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
   end
 
   def assert_last_response_code code

@@ -6,11 +6,17 @@ class TestConf2 < Test::Unit::TestCase
   include WaitHelper
 
   def test_conf2
-    @vm.upload_json "conf2.json"
-    @vm.run_chef
+    # @vm.upload_json "conf2.json"
+    # @vm.run_chef
+
+    @http.get 80, "/jenkins/"
+    @http.assert_last_response_code 401
+    assert_equal @http.response['WWW-Authenticate'], "Basic realm=\"myrealm\", Basic realm=\"myrealm\""
+    @http.get 80, "/jenkins/", 'test', 'mypassword'
+    assert_not_equal @http.response.code.to_i, 401
 
     wait "Waiting jenkins init" do
-      @http.get 80, "/jenkins/"
+      @http.get 80, "/jenkins/", 'test', 'mypassword'
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /New Job/
     end
@@ -23,7 +29,7 @@ class TestConf2 < Test::Unit::TestCase
     @vm.run_chef
     new_crons = @vm.capture("ls /etc/cron.d").split("\n")
     assert_equal crons, new_crons
-    @http.get 80, "/jenkins/"
+    @http.get 80, "/jenkins/", 'test', 'mypassword'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /New Job/
 
@@ -34,7 +40,7 @@ class TestConf2 < Test::Unit::TestCase
     # Check multiple Java version
     java_version = @vm.capture("java -version 2>&1")
     assert_match /1.7.0_07/, java_version
-    @http.get 80, "/jenkins/systemInfo"
+    @http.get 80, "/jenkins/systemInfo", 'test', 'mypassword'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /1\.7\.0_07/
   end

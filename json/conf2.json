@@ -16,6 +16,16 @@
   "node_config": {
     "java": {
         "default_version" : "oracle_java7"
+    },
+    "nginx": {
+      "default_vhost": {
+        "basic_auth": {
+          "realm": "myrealm",
+          "users": {
+            "test": "mypassword"
+          }
+        }
+      }
     }
   }
 }
