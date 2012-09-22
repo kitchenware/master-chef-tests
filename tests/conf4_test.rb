@@ -16,11 +16,17 @@ class TestConf4 < Test::Unit::TestCase
     # check mysql config
     @vm.run "\"echo 'SELECT 1;' | mysql --user=toto --password=titi db_test\" > /dev/null"
 
-    # check apache and php deployment
+    # check apache basic auth
     @http.get 80, "/"
+    @http.assert_last_response_code 401
+    assert_equal @http.response['WWW-Authenticate'], "Basic realm=\"apache2 realm\""
+
+    @http.get 80, "/", 'u1', 'u1pass'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /It works!/
-    @http.get 80, "/phpinfo.php"
+
+    # check php deployment
+    @http.get 80, "/phpinfo.php", 'u1', 'u1pass'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /PHP Version/
     @http.assert_last_response_body_regex /abcd123/

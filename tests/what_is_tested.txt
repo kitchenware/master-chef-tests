@@ -45,6 +45,7 @@ conf 4
 * chef-solo scripts
 * instance tomcat on port 8080
 * mysql database manual config
+* apache2 basic auth
 * php5 stack and php_info(), with mimetype override and mysql module
 * php pear package installation
 * deploy conf4 app_test rails app in nginx port 81, using user1

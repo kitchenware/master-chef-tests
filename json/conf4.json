@@ -21,6 +21,16 @@
         "keys": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+IxWmprlBa0jQtWH3BQAwKKm/cBdcW+pJn9wbsaciZyx0A3xkrGk6Ef8w6UsvhqSPnLPuOI16pZ5JgrU5XTKDyqkGpczJrhDbSUqj2zBegMxYS1wEPbnCBLsUB/6S/Dckx/X00LPCj1rlGAa38I9BrLlTIB+bZuWe0CsIU89IefU7kNnRlczJ2HvDLeXs5mWBrKvYwWsL1HL5IXf3Wb1RqsJ3q3W5An/pFDANMQ2UfZG23zl9sZG7mRFp2s1oR4SrvJ/TJy/1cwci5ErxejqrH1pqwvKbLEHvyUPe6JJMYBFuRb9UMbD/TAHxdiklqg1V+P1M3OipfWnMVOnvZRTN master-chef"]
       }
     },
+    "apache2": {
+      "default_vhost": {
+        "basic_auth": {
+          "realm": "apache2 realm",
+          "users": {
+            "u1": "u1pass"
+          }
+        }
+      }
+    },
     "nginx": {
       "default_vhost": {
         "listen": "0.0.0.0:81"
