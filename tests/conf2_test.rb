@@ -6,8 +6,8 @@ class TestConf2 < Test::Unit::TestCase
   include WaitHelper
 
   def test_conf2
-    # @vm.upload_json "conf2.json"
-    # @vm.run_chef
+    @vm.upload_json "conf2.json"
+    @vm.run_chef
 
     @http.get 80, "/jenkins/"
     @http.assert_last_response_code 401
