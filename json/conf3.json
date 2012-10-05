@@ -25,7 +25,7 @@
     "node_logstash": {
       "configs": {
         "output": [
-          "output://elasticsearch://127.0.0.1:9200"
+          "output://elasticsearch_zeromq://tcp://127.0.0.1:9700"
         ]
       },
       "monitor_files": {
