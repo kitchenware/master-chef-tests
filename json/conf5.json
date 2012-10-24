@@ -8,7 +8,8 @@
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
     "recipe[sonar]",
-    "recipe[nexus]"
+    "recipe[nexus]",
+    "recipe[gitlab]"
   ],
   "node_config": {
   }

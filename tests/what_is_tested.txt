@@ -63,6 +63,7 @@ conf 5
 * nexus
 * tomcat instance auto config
 * nginx
+* gitlab
 
 conf 6
 

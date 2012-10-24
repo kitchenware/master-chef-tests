@@ -8,7 +8,7 @@ SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY} -o StrictHostKeyChecking=no"
 class VmDriver
 
   def format_chef_ssh cmd
-    "ssh #{SSH_OPTS} #{CHEF_USER}@#{ip} #{cmd}"
+    "ssh #{SSH_OPTS} #{CHEF_USER}@#{ip} \"#{cmd}\""
   end
 
   def run cmd
