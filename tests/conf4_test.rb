@@ -14,7 +14,7 @@ class TestConf4 < Test::Unit::TestCase
     assert_match /Coyote/, @http.response["Server"]
 
     # check mysql config
-    @vm.run "\"echo 'SELECT 1;' | mysql --user=toto --password=titi db_test\" > /dev/null"
+    @vm.run "echo 'SELECT 1;' | mysql --user=toto --password=titi db_test > /dev/null"
 
     # check apache basic auth
     @http.get 80, "/"
