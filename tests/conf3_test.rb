@@ -31,7 +31,7 @@ class TestConf3 < Test::Unit::TestCase
     end
 
     # check kibana
-    @vm.run "\"echo 'truc' >> /tmp/toto.log\""
+    @vm.run "echo 'truc' >> /tmp/toto.log"
 
     total = -1
 
@@ -42,7 +42,7 @@ class TestConf3 < Test::Unit::TestCase
       total = json['hits']['total']
     end
 
-    @vm.run "\"echo 'abcd' >> /tmp/toto.log\""
+    @vm.run "echo 'abcd' >> /tmp/toto.log"
 
     wait "Waiting data in kibana", 30, 5 do
       @http.get 80, "/api/search/eyJzZWFyY2giOiJhYmNkIiwiZmllbGRzIjpbXSwib2Zmc2V0IjowLCJ0aW1lZnJhbWUiOiI5MDAiLCJncmFwaG1vZGUiOiJjb3VudCIsInN0YW1wIjoxMzQ4MTgxNTE2MDk2fQ==?_=#{Time.now.to_i}"
