@@ -79,6 +79,7 @@ class TestConf5 < Test::Unit::TestCase
 
   def teardown
     FileUtils.remove_dir @dir if @dir
+    VmTestHelper.instance_method(:teardown).bind(self).call
   end
 
 end
