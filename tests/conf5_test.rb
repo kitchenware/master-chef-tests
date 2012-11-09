@@ -11,14 +11,14 @@ class TestConf5 < Test::Unit::TestCase
     @vm.upload_json "conf5.json"
     @vm.run_chef
 
-    # Check sonar
+    # # Check sonar
     wait "Waiting sonar init", 300, 10 do
       @http.get 80, "/sonar/sessions/new?return_to=%2Fsonar%2F"
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /Login/
     end
 
-    # Check nexus
+    # # Check nexus
     wait "Waiting nexus init", 300, 10 do
       @http.get 80, "/nexus/index.html#welcome"
       @http.assert_last_response_code 200
@@ -75,6 +75,13 @@ class TestConf5 < Test::Unit::TestCase
 
     exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && touch README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{project}.git && git push -u origin master"
 
+    wait "Waiting push processed", 40, 2 do
+      @http.get 80, "/dashboard.atom?private_token=#{token}"
+      @http.assert_last_response_code 200
+      @http.assert_last_response_body_regex /#{username} pushed new branch master at #{project}/
+    end
+
+   
   end
 
   def teardown
