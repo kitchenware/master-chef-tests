@@ -11,14 +11,14 @@ class TestConf5 < Test::Unit::TestCase
     @vm.upload_json "conf5.json"
     @vm.run_chef
 
-    # # Check sonar
+    # Check sonar
     wait "Waiting sonar init", 300, 10 do
       @http.get 80, "/sonar/sessions/new?return_to=%2Fsonar%2F"
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /Login/
     end
 
-    # # Check nexus
+    # Check nexus
     wait "Waiting nexus init", 300, 10 do
       @http.get 80, "/nexus/index.html#welcome"
       @http.assert_last_response_code 200
@@ -26,7 +26,6 @@ class TestConf5 < Test::Unit::TestCase
     end
 
     # Check gitlab
-
     wait "Waiting gitlab", 20, 2 do
       @http.get 80, "/"
       @http.assert_last_response_code 302
@@ -81,7 +80,6 @@ class TestConf5 < Test::Unit::TestCase
       @http.assert_last_response_body_regex /#{username} pushed new branch master at #{project}/
     end
 
-   
   end
 
   def teardown
