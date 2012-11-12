@@ -29,7 +29,7 @@ class TestConf4 < Test::Unit::TestCase
     @http.get 80, "/phpinfo.php", 'u1', 'u1pass'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /PHP Version/
-    @http.assert_last_response_body_regex /abcd123/
+    #@http.assert_last_response_body_regex /abcd123/
     @http.assert_last_response_body_regex /mysql/
 
     # check pear
@@ -57,6 +57,11 @@ class TestConf4 < Test::Unit::TestCase
     @http.get 81, "/my_file.txt"
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /static content/
+
+    #apc test
+    curl_http_code = @vm.capture "curl -sL -w \"%{http_code}\" \"http://localhost:2323/apc.php\" -o /dev/null"
+    assert curl_http_code == "200"
+
   end
 
 end

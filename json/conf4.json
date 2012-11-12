@@ -11,6 +11,7 @@
     "recipe[mysql]",
     "recipe[php5::apache2]",
     "recipe[php5::phpinfo]",
+    "recipe[php5::apc]",
     "recipe[rails]"
   ],
   "node_config": {
