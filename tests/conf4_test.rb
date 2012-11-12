@@ -29,7 +29,7 @@ class TestConf4 < Test::Unit::TestCase
     @http.get 80, "/phpinfo.php", 'u1', 'u1pass'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /PHP Version/
-    #@http.assert_last_response_body_regex /abcd123/
+    @http.assert_last_response_body_regex /abcd123/
     @http.assert_last_response_body_regex /mysql/
 
     # check pear
