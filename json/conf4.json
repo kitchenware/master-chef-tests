@@ -70,7 +70,8 @@
       "conf4": {
         "user": "user1",
         "app_directory": "/toto",
-        "mysql_database": "mysql:databases:db_test"
+        "mysql_database": "mysql:databases:db_test",
+        "unicorn": {}
       }
     }
   }
