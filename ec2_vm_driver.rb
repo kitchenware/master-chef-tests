@@ -15,7 +15,7 @@ class Ec2VmDriver < VmDriver
   def init
     params = @config[:params].merge(:image_id => @config[:amis][@ami_type])
     @node = fog.servers.create params
-    @node.wait_for(20, 3) { ready? }
+    @node.wait_for(120, 5) { ready? }
     puts "Server ready #{@node.id}."
     begin
       sleep(1)
