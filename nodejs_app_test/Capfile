@@ -17,11 +17,13 @@ ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "ssh", "id_rsa")]
 ssh_options[:paranoid] = false
 # end
 
+use_http_proxy = ENV["PROXY"] ? "export http_proxy=#{ENV["PROXY"]} && " : ""
+
 namespace :deploy do
 
   task :warp, :roles => :app do
     prefix = ENV["NO_WARP"] ? "NO_WARP=#{ENV['NO_WARP']} " : ""
-    run "cd #{release_path} && #{prefix} $HOME/.warp/client/node/install.sh"
+    run "cd #{release_path} && #{use_http_proxy} #{prefix} $HOME/.warp/client/node/install.sh"
   end
 
   task :restart, :roles => :app do
