@@ -31,8 +31,6 @@ class TestConf5 < Test::Unit::TestCase
       @http.assert_last_response_code 302
     end
 
-    sleep 300
-    
     username = "toto"
     mail = "test@toto.com"
     project = "prj_#{Time.now.to_i}"
