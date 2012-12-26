@@ -26,7 +26,7 @@ class TestConf5 < Test::Unit::TestCase
     end
 
     # Check gitlab
-    wait "Waiting gitlab", 20, 2 do
+    wait "Waiting gitlab", 300, 2 do
       @http.get 80, "/"
       @http.assert_last_response_code 302
     end
@@ -71,8 +71,11 @@ class TestConf5 < Test::Unit::TestCase
 
     end
 
-    @http.get 80, "/users/sign_in", nil, nil, {'cookie' => cookie}
-    @http.assert_last_response_code 200
+    wait "Waiting gitlab sign_in", 300, 2 do
+      @http.get 80, "/users/sign_in", nil, nil, {'cookie' => cookie}
+      @http.assert_last_response_code 200
+    end
+
     @http.response.body =~ /authenticity_token\"[^>]+value=\"([^\"]+)\"/
     authenticity_token = $1
     
