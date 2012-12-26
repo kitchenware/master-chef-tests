@@ -95,6 +95,8 @@ class TestConf5 < Test::Unit::TestCase
  
     @dir = "/tmp/#{project}"
 
+    exec_local "ssh-keygen -R #{@vm.ip}"
+    
     exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git && git push -u origin master"
 
     exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && git push"
