@@ -31,9 +31,12 @@ class TestConf5 < Test::Unit::TestCase
       @http.assert_last_response_code 302
     end
 
+    cookie = @http.extract_set_cookie
+    
     username = "toto"
     mail = "test@toto.com"
     project = "prj_#{Time.now.to_i}"
+    password = "totototo"
 
     token = @vm.capture("echo 'SELECT authentication_token FROM users WHERE email = \\\"#{mail}\\\";'| sudo /opt/gitlab/shared/mysql.sh | tail -n 1").strip
 
@@ -48,7 +51,7 @@ class TestConf5 < Test::Unit::TestCase
         :email => mail,
         :username => username,
         :name => username,
-        :password => "totototo",
+        :password => password,
         :projects_limit => 200,
       }
       @http.assert_last_response_code 201
@@ -68,18 +71,42 @@ class TestConf5 < Test::Unit::TestCase
 
     end
 
+    @http.get 80, "/users/sign_in", nil, nil, {'cookie' => cookie}
+    @http.assert_last_response_code 200
+    @http.response.body =~ /authenticity_token\"[^>]+value=\"([^\"]+)\"/
+    authenticity_token = $1
+    
+    cookie = @http.extract_set_cookie
+
+    @http.post_form 80, "/users/sign_in", {"user[remember_me]" => 0, "user[email]" => mail, "user[password]" => password, "authenticity_token" => authenticity_token}, nil, nil, {'cookie' => cookie}
+    @http.assert_last_response_code 302
+    assert_nil @http.response['location'] =~ /sign_in/
+
+    cookie = @http.extract_set_cookie
+
+    @http.get 80, "/", nil, nil, {'cookie' => cookie}
+    @http.assert_last_response_code 200
+    
     @http.post_form 80, "/api/v3/projects?private_token=#{token}", {:name => project}
     @http.assert_last_response_code 201
  
     @dir = "/tmp/#{project}"
 
-    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && touch README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git && git push -u origin master"
+    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git && git push -u origin master"
+
+    exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && git push"
 
     wait "Waiting push processed", 40, 2 do
       @http.get 80, "/dashboard.atom?private_token=#{token}"
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /#{username} pushed new branch master at #{project}/
     end
+
+    last_commit = capture_local "cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'"
+    
+    @http.get 80, "/#{username}/#{project}/commit/#{last_commit}", nil, nil, {'cookie' => cookie}
+    @http.assert_last_response_code 200
+    assert @http.response.body =~ /burp_#{project}/
 
   end
 
