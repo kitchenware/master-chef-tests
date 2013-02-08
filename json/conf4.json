@@ -38,7 +38,7 @@
       }
     },
     "php5": {
-      "apache2": {
+      "php_ini": {
         "default_mimetype": "abcd123"
       },
       "modules": ["mysql"],
@@ -58,6 +58,11 @@
       }
     },
     "mysql": {
+      "engine_config": {
+        "mysqld": {
+          "bind_address": "0.0.0.0"
+        }
+      },
       "databases": {
         "db_test": {
           "host": "localhost",
