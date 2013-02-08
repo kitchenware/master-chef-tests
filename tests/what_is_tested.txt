@@ -6,7 +6,7 @@ conf 1
 * tomcat instance
 * tomcat http connector manual config
 * tomcat war rename for changing /toto
-* mysql
+* mysql on localhost
 * mysql database auto config (declared in confluence recipe)
 * nginx location on vhost
 

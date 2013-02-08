@@ -13,6 +13,7 @@ class TestConf1 < Test::Unit::TestCase
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /Confluence Setup Wizard/
     @vm.run "sudo netstat -nltp | grep 127.0.0.1:9999 | grep LISTEN | grep java"
+    @vm.run "sudo netstat -nltp | grep 127.0.0.1:3306 | grep LISTEN"
   end
 
 end

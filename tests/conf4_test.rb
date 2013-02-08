@@ -8,6 +8,9 @@ class TestConf4 < Test::Unit::TestCase
     @vm.upload_json "conf4.json"
     @vm.run_chef
 
+    # check mysql listening
+    @vm.run "sudo netstat -nltp | grep 0.0.0.0:3306 | grep LISTEN"
+
     # check tomcat deployment
     @http.get 8080, "/toto"
     @http.assert_last_response_code 404
