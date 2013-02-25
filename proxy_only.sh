@@ -2,23 +2,19 @@
 
 IPTABLES="/sbin/iptables"
 
-loopIf=lo
-looplan=127.0.0.0/8
-
 PROXY_IP="$1"
 PROXY_PORT="$2"
 
-$IPTABLES -P OUTPUT DROP
-$IPTABLES -P INPUT  DROP
-$IPTABLES -P FORWARD DROP
+echo "Starting firewall : droping all  expect inbound SSH and outbound proxy to $PROXY_IP:$PROXY_PORT"
 
-$IPTABLES -A INPUT  -m state --state ESTABLISHED,RELATED -j ACCEPT
-$IPTABLES -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-$IPTABLES -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPTABLES -F INPUT
+$IPTABLES -A INPUT -i eth0 -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -i eth0 -p tcp -s $PROXY_IP --sport $PROXY_PORT -j ACCEPT
+$IPTABLES -A INPUT -i eth0 -j DROP
 
-$IPTABLES -A INPUT -i ${loopIf} -s ${looplan} -d ${looplan} -j ACCEPT
-$IPTABLES -A OUTPUT -o ${loopIf} -s ${looplan} -d ${looplan} -j ACCEPT
+$IPTABLES -F OUTPUT
+$IPTABLES -A OUTPUT -o eth0 -p tcp --sport 22 -j ACCEPT
+$IPTABLES -A OUTPUT -o eth0 -p tcp -d $PROXY_IP --dport $PROXY_PORT -j ACCEPT
+$IPTABLES -A OUTPUT -o eth0 -j DROP
 
-$IPTABLES -A INPUT -i eth0 -p tcp -m tcp --dport 22 -j ACCEPT
-$IPTABLES -A OUTPUT -o eth0 -p tcp -m tcp -d $PROXY_IP --dport $PROXY_PORT -j ACCEPT
-
+echo "Firewall ready"
