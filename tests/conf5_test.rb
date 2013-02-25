@@ -32,7 +32,7 @@ class TestConf5 < Test::Unit::TestCase
     end
 
     cookie = @http.extract_set_cookie
-    
+
     username = "toto"
     mail = "test@toto.com"
     project = "prj_#{Time.now.to_i}"
@@ -41,7 +41,7 @@ class TestConf5 < Test::Unit::TestCase
     token = @vm.capture("echo 'SELECT authentication_token FROM users WHERE email = \\\"#{mail}\\\";'| sudo /opt/gitlab/shared/mysql.sh | tail -n 1").strip
 
     if token == ""
-      
+
       token = @vm.capture("echo 'SELECT authentication_token FROM users WHERE email = \\\"admin@local.host\\\";'| sudo /opt/gitlab/shared/mysql.sh | tail -n 1").strip
 
       @http.get 80, "/api/v3/user?private_token=#{token}"
@@ -78,7 +78,7 @@ class TestConf5 < Test::Unit::TestCase
 
     @http.response.body =~ /authenticity_token\"[^>]+value=\"([^\"]+)\"/
     authenticity_token = $1
-    
+
     cookie = @http.extract_set_cookie
 
     @http.post_form 80, "/users/sign_in", {"user[remember_me]" => 0, "user[email]" => mail, "user[password]" => password, "authenticity_token" => authenticity_token}, nil, nil, {'cookie' => cookie}
@@ -89,15 +89,20 @@ class TestConf5 < Test::Unit::TestCase
 
     @http.get 80, "/", nil, nil, {'cookie' => cookie}
     @http.assert_last_response_code 200
-    
+
     @http.post_form 80, "/api/v3/projects?private_token=#{token}", {:name => project}
     @http.assert_last_response_code 201
- 
+
     @dir = "/tmp/#{project}"
 
     exec_local "ssh-keygen -R #{@vm.ip}"
-    
-    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git && git push -u origin master"
+    exec_local "ssh -o StrictHostKeyChecking=no #{@vm.ip} exit || true"
+
+    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git"
+
+    wait "Waiting push", 40, 5 do
+      exec_local "cd /tmp/#{project} && git push -u origin master"
+    end
 
     exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && git push"
 
@@ -108,7 +113,7 @@ class TestConf5 < Test::Unit::TestCase
     end
 
     last_commit = capture_local "cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'"
-    
+
     @http.get 80, "/#{username}/#{project}/commit/#{last_commit}", nil, nil, {'cookie' => cookie}
     @http.assert_last_response_code 200
     assert @http.response.body =~ /burp_#{project}/
