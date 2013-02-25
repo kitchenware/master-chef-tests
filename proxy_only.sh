@@ -5,7 +5,7 @@ IPTABLES="/sbin/iptables"
 PROXY_IP="$1"
 PROXY_PORT="$2"
 
-echo "Starting firewall : droping allow all inbound connections, and dropping all outbound except proxy to $PROXY_IP:$PROXY_PORT"
+echo "Starting firewall : dropping outbound traffic except proxy to $PROXY_IP:$PROXY_PORT"
 
 $IPTABLES -F INPUT
 $IPTABLES -A INPUT -i eth0 -j ACCEPT
