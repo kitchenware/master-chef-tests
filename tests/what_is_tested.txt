@@ -22,6 +22,7 @@ conf 2
 * munin-node
 * remove useless cron file in /etc/cron.d
 * install two jdk and use jdk7 as default
+* test ssh_accept_host_key
 
 conf 3
 

@@ -43,6 +43,9 @@ class TestConf2 < Test::Unit::TestCase
     @http.get 80, "/jenkins/systemInfo", 'test', 'mypassword'
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /1\.7\.0_07/
+
+    # testing ssh_accept_host_key
+    @vm.run "ssh-keygen -F github.com"
   end
 
 end
