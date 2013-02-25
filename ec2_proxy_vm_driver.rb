@@ -9,7 +9,7 @@ class Ec2ProxyVmDriver < Ec2VmDriver
     run "chmod +x proxy_only.sh && sudo ./proxy_only.sh #{ENV['PROXY_IP']} 3128"
     puts "Testing proxy is working"
     run "! curl -s -f http://www.google.com"
-    run "http_proxy=http://#{ENV['PROXY_IP']}:3128 curl -s -f http://www.google.com"
+    run "http_proxy=http://#{ENV['PROXY_IP']}:3128 curl -s -f http://www.google.com -o /dev/null"
     puts "Proxy ready"
   end
 
