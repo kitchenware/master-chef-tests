@@ -35,9 +35,12 @@ class VmDriver
     end
   end
 
+  def upload_file from, to
+    exec_local "scp #{SSH_OPTS} #{from} #{CHEF_USER}@#{ip}:#{to}"
+  end
+
   def upload_json json
-    json_file = File.join(File.dirname(__FILE__), "json", json)
-    exec_local "scp #{SSH_OPTS} #{json_file} #{CHEF_USER}@#{ip}:/tmp/local.json"
+    upload_file File.join(File.dirname(__FILE__), "json", json), "/tmp/local.json"
     self.run "sudo mv /tmp/local.json /etc/chef/local.json"
   end
 
