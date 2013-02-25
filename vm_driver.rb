@@ -29,7 +29,9 @@ class VmDriver
     if ENV["CHEF_LOCAL"]
       exec_local "../../runtime/chef_local.rb #{ip}"
     else
-      run "/etc/chef/update.sh"
+      prefix = ""
+      prefix = "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]
+      run "#{prefix} /etc/chef/update.sh"
     end
   end
 
