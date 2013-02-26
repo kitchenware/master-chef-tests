@@ -18,7 +18,7 @@
         "default_version" : "oracle_java7"
     },
     "ssh_accept_host_keys": {
-      "chef": ["github.com"]
+      "chef": ["localhost"]
     },
     "nginx": {
       "default_vhost": {

@@ -45,7 +45,7 @@ class TestConf2 < Test::Unit::TestCase
     @http.assert_last_response_body_regex /1\.7\.0_07/
 
     # testing ssh_accept_host_key
-    @vm.run "ssh-keygen -F github.com"
+    @vm.run "ssh-keygen -F localhost"
   end
 
 end
