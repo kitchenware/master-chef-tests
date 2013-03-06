@@ -8,7 +8,7 @@
   :key_name: master-chef
   :security_group_ids: ["open_world"]
 :amis:
-  :debian_squeeze: ami-3e68634a
-  :debian_wheezy: ami-95393be1
-  :ubuntu_lucid: ami-2bcff45f
-  :ubuntu_precise: ami-26575f52
+  :debian_squeeze: ami-d86e65ac
+  :debian_wheezy: ami-b26e65c6
+  :ubuntu_lucid: ami-006e6574
+  :ubuntu_precise: ami-146e6560
