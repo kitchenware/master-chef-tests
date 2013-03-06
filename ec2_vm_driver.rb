@@ -31,8 +31,10 @@ class Ec2VmDriver < VmDriver
 
   def destroy
     node_id = ENV["NODE_ID"] || @node.id
-    puts "Destroying server #{node_id}"
-    fog.servers.find{|x| x.id == node_id}.destroy unless ENV["KEEP_SERVER"]
+    unless ENV["KEEP_SERVER"]
+      puts "Destroying server #{node_id}"
+      fog.servers.find{|x| x.id == node_id}.destroy
+    end
   end
 
   private
