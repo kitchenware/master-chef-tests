@@ -1,15 +1,17 @@
 require 'fog'
 require 'yaml'
+require 'deep_merge'
 
 abort "Please specify EC2_CONFIG_FILE variable" unless ENV["EC2_CONFIG_FILE"]
 
-config_file = YAML.load(File.read(ENV["EC2_CONFIG_FILE"]))
+config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'ec2_base.yml')))
+config.deep_merge! YAML.load(File.read(ENV["EC2_CONFIG_FILE"]))
 
-fog = Fog::Compute.new config_file[:fog]
+fog = Fog::Compute.new config[:fog]
 
-vm = fog.servers.find{|x| x.id == config_file[:proxy_vm_id]}
+vm = fog.servers.find{|x| x.id == config[:proxy_vm_id]}
 
-puts "Status of vm : #{config_file[:proxy_vm_id]} : #{vm.state}"
+puts "Status of vm : #{config[:proxy_vm_id]} : #{vm.state}"
 
 if ARGV[0] == "start" && vm.state == "stopped"
   puts "Starting vm"
