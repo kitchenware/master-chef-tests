@@ -14,14 +14,14 @@ ssh_options[:keys] = [File.join(File.dirname(__FILE__), "..", "..", "ssh", "id_r
 ssh_options[:paranoid] = false
 
 envs = ""
-envs += "http_proxy=#{ENV["PROXY"]} " if ENV["PROXY"]
-envs += "http_proxy=http://#{ENV["PROXY_IP"]}:3128 " if ENV["PROXY_IP"]
+envs += "export http_proxy=#{ENV["PROXY"]} && " if ENV["PROXY"]
+envs += "export http_proxy=http://#{ENV["PROXY_IP"]}:3128 && " if ENV["PROXY_IP"]
 # end
 
 namespace :deploy do
 
   task :bundler, :roles => :app do
-    run "cd #{release_path} && . $HOME/.warp/common/ruby/include && #{envs} rbenv warp install-ruby && gem list | grep bundle || #{envs} gem install bundler"
+    run "cd #{release_path} && . $HOME/.warp/common/ruby/include && #{envs} rbenv warp install-ruby && gem list | grep bundle || gem install bundler"
   end
 
   task :bundle, :roles => :app do
