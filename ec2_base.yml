@@ -1,0 +1,14 @@
+---
+:fog:
+  :provider: AWS
+  :region: eu-west-1
+:proxy_vm_id: i-e69315ac
+:params:
+  :flavor_id: m1.medium
+  :key_name: master-chef
+  :security_group_ids: ["open_world"]
+:amis:
+  :debian_squeeze: ami-3e68634a
+  :debian_wheezy: ami-95393be1
+  :ubuntu_lucid: ami-2bcff45f
+  :ubuntu_precise: ami-26575f52

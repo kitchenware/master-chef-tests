@@ -1,6 +1,7 @@
 
 require 'fog'
 require 'yaml'
+require 'deep_merge'
 
 class Ec2VmDriver < VmDriver
 
@@ -9,7 +10,8 @@ class Ec2VmDriver < VmDriver
   def initialize
     config_file = get_env("EC2_CONFIG_FILE")
     @ami_type = get_env("AMI_TYPE").to_sym
-    @config = YAML.load(File.read(config_file))
+    @config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'ec2_base.yml')))
+    @config.deep_merge! YAML.load(File.read(config_file))
   end
 
   def init

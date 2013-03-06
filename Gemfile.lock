@@ -12,6 +12,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     childprocess (0.3.2)
       ffi (~> 1.0.6)
+    deep_merge (1.0.0)
     erubis (2.7.0)
     excon (0.13.4)
     ffi (1.0.11)
@@ -67,6 +68,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
+  deep_merge
   fog
   parallel_run
   railsless-deploy
