@@ -7,6 +7,9 @@ class TestConf6 < Test::Unit::TestCase
   include WaitHelper
 
   def test_conf6
+    # ensure chef-solo scripts are up to date
+    @vm.run_chef
+
     @vm.upload_json "conf6.json"
     @vm.run_chef
 
