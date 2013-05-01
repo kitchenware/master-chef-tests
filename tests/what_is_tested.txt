@@ -15,6 +15,7 @@ conf 2
 * base system
 * chef-solo scripts
 * jenkins
+* jenkins plugin install
 * tomcat
 * tomcat http connector auto config with specific connector params
 * nginx location on vhost

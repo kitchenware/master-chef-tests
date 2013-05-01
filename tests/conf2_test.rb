@@ -21,6 +21,10 @@ class TestConf2 < Test::Unit::TestCase
       @http.assert_last_response_body_regex /New Job/
     end
 
+    @http.get 80, "/jenkins/pluginManager/installed", 'test', 'mypassword'
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /Green Balls/
+
     # Check cron management
     # Check chef second run
     crons = @vm.capture("ls /etc/cron.d").split("\n")

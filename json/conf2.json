@@ -20,6 +20,9 @@
     "ssh_accept_host_keys": {
       "chef": ["localhost"]
     },
+    "jenkins": {
+      "plugins": ["greenballs"]
+    },
     "nginx": {
       "default_vhost": {
         "basic_auth": {
