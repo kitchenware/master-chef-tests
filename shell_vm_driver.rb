@@ -4,10 +4,11 @@ class ShellVmDriver < VmDriver
   def initialize
     @clone = get_env("CLONE_SCRIPT")
     @delete = get_env("DELETE_SCRIPT")
+    @vm_name = get_env("VM_NAME")
   end
 
   def init
-    @name = "master_chef_#{Time.now.to_i}"
+    @name = "#{@vm_name}_#{Time.now.to_i}"
     puts "Creating vm #{@name}"
     cmd = @clone.gsub(/#NAME#/, @name)
     result = capture_local cmd
