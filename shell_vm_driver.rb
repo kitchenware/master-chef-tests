@@ -15,7 +15,11 @@ class ShellVmDriver < VmDriver
     parsed = result.match(/^IP (.*)$/)
     raise "Unable to parse command result" if !parsed
     @ip = parsed[1]
-    puts "Vm ready #{@name} : #{@ip}"
+    begin
+      sleep(1)
+      %x(nc -v -w 2 -z #{ip} 22 2>&1 > /dev/null)
+    end while $? != 0
+    puts "Vm ready #{@name} : #{ip}"
   end
 
   def ip
