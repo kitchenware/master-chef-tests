@@ -1,5 +1,12 @@
 
-SSH_CONFIG_FILE = File.join(File.dirname(__FILE__), "ssh", "config")
+require 'tempfile'
+
+ssh_config_file = Tempfile.new '_ssh_config'
+user_ssh_config_file = File.join(ENV['HOME'], '.ssh', 'config')
+ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
+ssh_config_file.write(File.read(File.join(File.dirname(__FILE__), "ssh", "config")))
+ssh_config_file.close
+SSH_CONFIG_FILE = ssh_config_file.path
 SSH_KEY = File.join(File.dirname(__FILE__), "ssh", "id_rsa")
 SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY} -o StrictHostKeyChecking=no"
 %x{chmod 0600 #{SSH_KEY}}

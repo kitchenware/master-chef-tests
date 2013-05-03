@@ -15,10 +15,24 @@ module VmTestHelper
   def setup
     @vm = vm = VM_DRIVER_CLAZZ.new
     @vm.init
-    %x{#{@vm.format_chef_ssh "uname -a"}}
-    assert_equal 0, $?.exitstatus
+    wait_ssh
     puts "Virtual machine ready !"
     @http = ::HttpTester.new @vm
+  end
+
+  def wait_ssh
+    puts "Check vm availibity by ssh #{@vm.ip}"
+    counter = 0
+    while true
+      raise "Unable to join #{@vm.ip} by ssh" if counter == 30
+      counter += 1
+      begin
+        %x{#{@vm.format_chef_ssh "uname -a"}}
+        break if $?.exitstatus == 0
+      rescue
+      end
+      sleep 2
+    end
   end
 
   def teardown

@@ -8,7 +8,7 @@ class ShellVmDriver < VmDriver
   end
 
   def init
-    @name = "#{@vm_name}_#{Time.now.to_i}"
+    @name = "#{@vm_name}".gsub(/#UID#/, Time.now.to_i.to_s)
     puts "Creating vm #{@name}"
     cmd = @clone.gsub(/#NAME#/, @name)
     result = capture_local cmd
@@ -16,10 +16,6 @@ class ShellVmDriver < VmDriver
     parsed = result.match(/^IP (.*)$/)
     raise "Unable to parse command result" if !parsed
     @ip = parsed[1]
-    begin
-      sleep(1)
-      %x(nc -v -w 2 -z #{ip} 22 2>&1 > /dev/null)
-    end while $? != 0
     puts "Vm ready #{@name} : #{ip}"
   end
 
