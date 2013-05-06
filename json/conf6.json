@@ -15,10 +15,9 @@
     "recipe[node_logstash]"
   ],
   "node_config": {
-    "additional_packages": ["bzip2"],
     "ssh_keys": {
       "deploy": {
-        "users": "nodejs",
+        "users": ["nodejs"],
         "keys": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+IxWmprlBa0jQtWH3BQAwKKm/cBdcW+pJn9wbsaciZyx0A3xkrGk6Ef8w6UsvhqSPnLPuOI16pZ5JgrU5XTKDyqkGpczJrhDbSUqj2zBegMxYS1wEPbnCBLsUB/6S/Dckx/X00LPCj1rlGAa38I9BrLlTIB+bZuWe0CsIU89IefU7kNnRlczJ2HvDLeXs5mWBrKvYwWsL1HL5IXf3Wb1RqsJ3q3W5An/pFDANMQ2UfZG23zl9sZG7mRFp2s1oR4SrvJ/TJy/1cwci5ErxejqrH1pqwvKbLEHvyUPe6JJMYBFuRb9UMbD/TAHxdiklqg1V+P1M3OipfWnMVOnvZRTN master-chef"]
       }
     },
@@ -27,6 +26,11 @@
         "network": {
           "config": "Server \"127.0.0.1\" \"25826\""
         }
+      }
+    },
+    "users": {
+      "nodejs": {
+        "nvm": true
       }
     },
     "nodejs_app": {
