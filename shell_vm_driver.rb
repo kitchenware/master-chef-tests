@@ -24,8 +24,10 @@ class ShellVmDriver < VmDriver
   end
 
   def destroy
-    cmd = @delete.gsub(/#NAME#/, @name)
-    exec_local cmd
+    unless ENV["KEEP_SERVER"]
+      cmd = @delete.gsub(/#NAME#/, @name)
+      exec_local cmd
+    end
   end
 
 end

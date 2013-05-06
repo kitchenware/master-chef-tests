@@ -17,8 +17,10 @@ class VboxSnapshotVmDriver < VmDriver
   end
 
   def destroy
-    vbox_manage "controlvm \"#{@name}\" poweroff"
-    sleep 2
+    unless ENV["KEEP_SERVER"]
+      vbox_manage "controlvm \"#{@name}\" poweroff"
+      sleep 2
+    end
   end
 
   private
