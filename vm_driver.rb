@@ -12,6 +12,7 @@ SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY} -o StrictHostKeyChecking=no"
 %x{chmod 0600 #{SSH_KEY}}
 %x{rm -f /tmp/tmp_known_hosts}
 
+
 class VmDriver
 
   def format_chef_ssh cmd
@@ -36,10 +37,11 @@ class VmDriver
     if ENV["CHEF_LOCAL"]
       exec_local "../../runtime/chef_local.rb #{ip}"
     else
+      chef_cmd = ENV['OMNIBUS'] ? "/opt/master-chef/bin/master-chef.sh" : "/etc/chec/update.sh"
       prefix = ""
       prefix = "http_proxy=http://#{ENV["PROXY_IP"]}:3128 https_proxy=http://#{ENV["PROXY_IP"]}:3128" if ENV["PROXY_IP"]
       prefix = "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]
-      run "#{prefix} /etc/chef/update.sh"
+      run "#{prefix} #{chef_cmd}"
     end
   end
 
@@ -49,7 +51,8 @@ class VmDriver
 
   def upload_json json
     upload_file File.join(File.dirname(__FILE__), "json", json), "/tmp/local.json"
-    self.run "sudo mv /tmp/local.json /etc/chef/local.json"
+    json_path = ENV['OMNIBUS'] ? "/opt/master-chef/etc" : "/etc/chef"
+    self.run "sudo mv /tmp/local.json #{json_path}/local.json"
   end
 
 end
