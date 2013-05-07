@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), '..', 'helper.rb')
+require 'tempfile'
 
 class TestConf5 < Test::Unit::TestCase
 
@@ -98,16 +99,19 @@ class TestConf5 < Test::Unit::TestCase
 
     @dir = "/tmp/#{project}"
 
-    exec_local "ssh-keygen -R #{@vm.ip}"
-    exec_local "ssh -o StrictHostKeyChecking=no #{@vm.ip} exit || true"
+    f = Tempfile.new "git_ssh"
+    f.write "ssh #{SSH_OPTS} \"$@\""
+    f.close
+
+    exec_local "chmod +x #{f.path}"
 
     exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git"
 
     wait "Waiting push", 40, 5 do
-      exec_local "cd /tmp/#{project} && git push -u origin master"
+      exec_local "cd /tmp/#{project} && GIT_SSH=#{f.path} git push -u origin master"
     end
 
-    exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && git push"
+    exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && GIT_SSH=#{f.path} git push"
 
     wait "Waiting push processed", 40, 2 do
       @http.get 80, "/dashboard.atom?private_token=#{token}"
