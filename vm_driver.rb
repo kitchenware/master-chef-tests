@@ -8,10 +8,9 @@ ssh_config_file.write(File.read(File.join(File.dirname(__FILE__), "ssh", "config
 ssh_config_file.close
 SSH_CONFIG_FILE = ssh_config_file.path
 SSH_KEY = File.join(File.dirname(__FILE__), "ssh", "id_rsa")
-SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY} -o StrictHostKeyChecking=no"
+SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY}"
 %x{chmod 0600 #{SSH_KEY}}
 %x{rm -f /tmp/tmp_known_hosts}
-
 
 class VmDriver
 
@@ -37,7 +36,7 @@ class VmDriver
     if ENV["CHEF_LOCAL"]
       exec_local "../../runtime/chef_local.rb #{ip}"
     else
-      chef_cmd = ENV['OMNIBUS'] ? "/opt/master-chef/bin/master-chef.sh" : "/etc/chec/update.sh"
+      chef_cmd = ENV['OMNIBUS'] ? "/opt/master-chef/bin/master-chef.sh" : "/etc/chef/update.sh"
       prefix = ""
       prefix = "http_proxy=http://#{ENV["PROXY_IP"]}:3128 https_proxy=http://#{ENV["PROXY_IP"]}:3128" if ENV["PROXY_IP"]
       prefix = "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]

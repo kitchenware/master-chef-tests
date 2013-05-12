@@ -9,9 +9,6 @@ class TestConf5 < Test::Unit::TestCase
   @dir = nil
 
   def test_conf5
-    # ensure chef-solo scripts are up to date
-    @vm.run_chef
-
     @vm.upload_json "conf5.json"
     @vm.run_chef
 

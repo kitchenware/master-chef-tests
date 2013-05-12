@@ -5,9 +5,6 @@ class TestConf1 < Test::Unit::TestCase
   include VmTestHelper
 
   def test_conf1
-    # ensure chef-solo scripts are up to date
-    @vm.run_chef
-
     @vm.upload_json "conf1.json"
     @vm.run_chef
 

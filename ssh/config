@@ -1,3 +1,5 @@
+ConnectTimeout 5
+BatchMode yes
 StrictHostKeyChecking no
 CheckHostIP no
 VerifyHostKeyDNS no

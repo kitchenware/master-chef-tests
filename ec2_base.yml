@@ -5,10 +5,10 @@
 :proxy_vm_id: i-e69315ac
 :params:
   :flavor_id: m1.medium
-  :key_name: master-chef
+  :key_name: ssh-master-chef
   :security_group_ids: ["open_world"]
 :amis:
-  :debian_squeeze: ami-d86e65ac
+  :debian_squeeze: ami-0f01367b
   :debian_wheezy: ami-b26e65c6
   :ubuntu_lucid: ami-006e6574
   :ubuntu_precise: ami-146e6560

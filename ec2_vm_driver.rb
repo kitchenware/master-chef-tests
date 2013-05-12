@@ -19,12 +19,7 @@ class Ec2VmDriver < VmDriver
     @node = fog.servers.create params
     @node.wait_for(120, 5) { ready? }
     puts "Server ready #{@node.id}, base ami #{@config[:amis][@ami_type]}"
-    begin
-      sleep(1)
-      %x(nc -v -w 2 -z #{@node.public_ip_address} 22 2>&1 > /dev/null)
-    end while $? != 0
-    sleep 5
-    puts "Server reachable #{@node.id}, ip #{@node.public_ip_address}."
+    puts "Public ip #{ip}"
   end
 
   def ip
