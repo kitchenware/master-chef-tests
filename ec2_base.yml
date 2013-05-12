@@ -8,7 +8,7 @@
   :key_name: ssh-master-chef
   :security_group_ids: ["open_world"]
 :amis:
-  :debian_squeeze: ami-0f01367b
-  :debian_wheezy: ami-b26e65c6
-  :ubuntu_lucid: ami-006e6574
-  :ubuntu_precise: ami-146e6560
+  :debian_squeeze: ami-722e2606
+  :debian_wheezy: ami-c90016bd
+  :ubuntu_lucid: ami-ca1a14be
+  :ubuntu_precise: ami-35acbb41

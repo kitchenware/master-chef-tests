@@ -41,7 +41,7 @@ module VmTestHelper
 
   def install_chef
     if ENV["CHEF_INSTALL"]
-      cmd = File.join(File.dirname(__FILE__), '..', 'runtime', "install_chef_#{get_env("DISTRO")}_x86_64.sh") + " #{@vm.ip}"
+      cmd = File.join(File.dirname(__FILE__), '..', 'runtime', "install_chef_#{get_env("CHEF_INSTALL")}_x86_64.sh") + " #{@vm.ip}"
       puts "Running chef install command : #{cmd}"
       exec_local "/bin/sh -c 'SSH_OPTS=\"#{SSH_OPTS}\" #{cmd}'"
       cmd = File.join(File.dirname(__FILE__), '..', 'runtime', "bootstrap_chef_solo#{ENV["OMNIBUS"] ? "_omnibus" : ""}_script.sh") + " #{@vm.ip}"
