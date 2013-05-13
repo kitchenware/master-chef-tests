@@ -62,7 +62,9 @@ class TestConf5 < Test::Unit::TestCase
       @http.get 80, "/api/v3/user?private_token=#{token}"
       @http.assert_last_response_code 200
 
-      @http.post_form 80, "/api/v3/user/keys?private_token=#{token}", {:title => "my", :key => File.read(File.join(ENV['HOME'], '.ssh', 'id_rsa.pub'))}
+      key_file = ENV["KEY_FILE"] || File.join(ENV['HOME'], '.ssh', 'id_rsa.pub')
+
+      @http.post_form 80, "/api/v3/user/keys?private_token=#{token}", {:title => "my", :key => File.read(key_file)}
       @http.assert_last_response_code 201
 
     else
