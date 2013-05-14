@@ -11,7 +11,7 @@ class ShellVmDriver < VmDriver
     @name = "#{@vm_name}".gsub(/#UID#/, Time.now.to_i.to_s)
     puts "Creating vm #{@name}"
     cmd = @clone.gsub(/#NAME#/, @name)
-    result = %x{cmd}
+    result = %x{#{cmd}}
     code = $?.exitstatus
     puts result
     raise "Command failed" unless code == 0
