@@ -8,7 +8,8 @@ class ShellVmDriver < VmDriver
   end
 
   def init
-    @name = "#{@vm_name}".gsub(/#UID#/, Time.now.to_i.to_s)
+    uid = "#{Time.now.to_i.to_s}_#{Process.pid}"
+    @name = "#{@vm_name}".gsub(/#UID#/, uid)
     puts "Creating vm #{@name}"
     cmd = @clone.gsub(/#NAME#/, @name)
     result = %x{#{cmd}}
