@@ -9,6 +9,10 @@ require File.join(File.dirname(__FILE__), 'vm_helper.rb')
 require File.join(File.dirname(__FILE__), 'http_helper.rb')
 require File.join(File.dirname(__FILE__), 'wait_helper.rb')
 
+SSH_RETRY_DELAY = (ENV["SSH_RETRY_DELAY"] || "2").to_i
+SSH_MAX_RETRY = (ENV["SSH_MAX_RETRY"] || "45").to_i
+SSH_CONNECT_OK = (ENV["SSH_CONNECT_OK"] || "1").to_i
+
 module VmTestHelper
 
   @vm = nil
@@ -23,19 +27,20 @@ module VmTestHelper
   end
 
   def wait_ssh
-    puts "Check vm availibity by ssh #{@vm.ip}"
+    puts "Check vm availibity by ssh #{@vm.ip} (retry delay #{SSH_RETRY_DELAY}, max #{SSH_MAX_RETRY}, ok #{SSH_CONNECT_OK})"
+    ok = 0
     counter = 0
-    while true
-      raise "Unable to join #{@vm.ip} by ssh" if counter == 30
+    while ok != SSH_CONNECT_OK
+      raise "Unable to join #{@vm.ip} by ssh" if counter == SSH_MAX_RETRY
+      sleep 2 unless counter == 0
       counter += 1
       begin
         res = %x{#{@vm.format_chef_ssh "uname -a"} 2>&1}
         code = $?.exitstatus
         puts res
-        break if code == 0 || res.match(/Permission denied/)
+        ok += 1 if code == 0 || res.match(/Permission denied/)
       rescue
       end
-      sleep 2
     end
   end
 
