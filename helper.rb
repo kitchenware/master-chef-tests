@@ -46,12 +46,12 @@ module VmTestHelper
 
   def install_chef
     if ENV["CHEF_INSTALL"]
-      master_chef_bootstrap_url = ENV["MASTER_CHEF_BOOTSTRAP_URL"] || "https://raw.github.com/octo-technology/master-chef/master/runtime/bootstrap.sh"
       install_user = ENV["USER_FOR_INSTALL"]
       prefix = ""
       prefix += "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]}" if ENV["MASTER_CHEF_HASH_CODE"]
-      exec_local "/bin/sh -c 'ssh #{SSH_OPTS} #{install_user}@#{@vm.ip} \"wget -q --no-check-certificate -O - #{master_chef_bootstrap_url} | #{prefix} bash\"'"
+      source_file = File.join(File.dirname(__FILE__), '..', 'runtime', 'bootstrap.sh')
+      exec_local "cat #{source_file} | ssh #{SSH_OPTS} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
       puts "Chef installed"
     end
   end
