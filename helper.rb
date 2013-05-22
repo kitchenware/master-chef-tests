@@ -50,6 +50,7 @@ module VmTestHelper
       prefix = ""
       prefix += "PROXY=#{ENV["PROXY"]}" if ENV["PROXY"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]}" if ENV["MASTER_CHEF_HASH_CODE"]
+      prefix += "OMNIBUS=#{ENV["OMNIBUS"]}" if ENV["OMNIBUS"]
       source_file = File.join(File.dirname(__FILE__), '..', 'runtime', 'bootstrap.sh')
       exec_local "cat #{source_file} | ssh #{SSH_OPTS} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
       puts "Chef installed"
