@@ -12,3 +12,8 @@
   :debian_wheezy: ami-c90016bd
   :ubuntu_lucid: ami-ca1a14be
   :ubuntu_precise: ami-35acbb41
+:user_for_install:
+  :debian_squeeze: admin
+  :debian_wheezy: admin
+  :ubuntu_lucid: ubuntu
+  :ubuntu_precise: ubuntu

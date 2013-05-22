@@ -20,6 +20,7 @@ class Ec2VmDriver < VmDriver
     @node.wait_for(120, 5) { ready? }
     puts "Server ready #{@node.id}, base ami #{@config[:amis][@ami_type]}"
     puts "Public ip #{ip}"
+    ENV["USER_FOR_INSTALL"] = @config[:user_for_install][@ami_type] if @config[:user_for_install][@ami_type] && !ENV["USER_FOR_INSTALL"]
   end
 
   def ip
