@@ -10,6 +10,9 @@ class TestConf6 < Test::Unit::TestCase
     @vm.upload_json "conf6.json"
     @vm.run_chef
 
+    # check sudo
+    exec_local "ssh #{SSH_OPTS} nodejs@#{@vm.ip} sudo ls /root"
+
     # deploy and check node application
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "nodejs_app_test")} && TARGET=#{@vm.ip} cap deploy"
 

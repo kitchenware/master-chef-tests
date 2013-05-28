@@ -77,3 +77,4 @@ conf 6
 * check collectd to graphite
 * deploy statsd and connect it to graphite
 * deploy node-logstash and test it
+* sudo
