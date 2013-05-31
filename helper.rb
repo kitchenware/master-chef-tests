@@ -49,6 +49,7 @@ module VmTestHelper
       install_user = get_env "USER_FOR_INSTALL"
       prefix = ""
       prefix += "PROXY=#{ENV["PROXY"]} " if ENV["PROXY"]
+      prefix += "MASTER_CHEF_URL=#{ENV["MASTER_CHEF_URL"]} " if ENV["MASTER_CHEF_URL"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]} " if ENV["MASTER_CHEF_HASH_CODE"]
       prefix += "OMNIBUS=#{ENV["OMNIBUS"]} " if ENV["OMNIBUS"]
       source_file = File.join(File.dirname(__FILE__), '..', 'runtime', 'bootstrap.sh')
