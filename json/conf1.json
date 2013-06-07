@@ -7,7 +7,8 @@
   "run_list": [
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
-    "recipe[confluence]"
+    "recipe[confluence]",
+    "recipe[logrotate]"
   ],
   "node_config": {
     "confluence": {
@@ -20,6 +21,9 @@
           }
         }
       }
+    },
+    "logrotate" : {
+      "fake" : {"chef" : ["/home/chef/fake.log"]}
     }
   }
 }
