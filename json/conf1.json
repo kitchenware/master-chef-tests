@@ -10,7 +10,8 @@
     "recipe[confluence]",
     "recipe[logrotate]",
     "recipe[lvm]",
-    "recipe[memcached]"
+    "recipe[memcached]",
+    "recipe[redis]"
   ],
   "node_config": {
     "confluence": {
