@@ -11,7 +11,8 @@
     "recipe[logrotate]",
     "recipe[lvm]",
     "recipe[memcached]",
-    "recipe[redis]"
+    "recipe[redis]",
+    "recipe[mongodb::server]"
   ],
   "node_config": {
     "confluence": {
