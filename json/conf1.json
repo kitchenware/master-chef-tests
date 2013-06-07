@@ -8,7 +8,9 @@
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
     "recipe[confluence]",
-    "recipe[logrotate]"
+    "recipe[logrotate]",
+    "recipe[lvm]",
+    "recipe[memcached]"
   ],
   "node_config": {
     "confluence": {
@@ -24,6 +26,29 @@
     },
     "logrotate" : {
       "fake" : {"chef" : ["/home/chef/fake.log"]}
+    },
+    "memcached":{
+      "memory":"128",
+      "bind_address":"0.0.0.0"
+    }
+  },
+  "override_attributes" : {
+    "lvm" : {
+      "physical_volumes" : ["/dev/vdb"],
+      "volume_groups" : {
+        "vg.storage" : ["/dev/vdb"]
+      },
+      "logical_volumes"  : {
+        "lv.data" : {
+          "volume_group" : "vg.storage",
+          "size" : "100%FREE"
+        }
+      },
+      "mount_existing_path" : {
+        "dev/mapper/vg.storage-lv.data" : {
+          "target" : "/apps"
+        }
+      }
     }
   }
 }

@@ -28,6 +28,12 @@ class TestConf1 < Test::Unit::TestCase
 
     files = @vm.capture "ls -1 /etc/logrotate.d/"
     assert_false files.split("\n").include?("todelete")
+
+    memory = @vm.capture("cat /etc/memcached.conf | grep 128")
+    assert_equal "-m 128\n", memory
+
+    ok = @vm.capture("echo -e 'flush_all\nquit' | nc localhost 11211")
+    assert_equal "OK\r\n", ok
   end
 
 end
