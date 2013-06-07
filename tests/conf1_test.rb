@@ -16,17 +16,18 @@ class TestConf1 < Test::Unit::TestCase
     @vm.run "sudo netstat -nltp | grep 127.0.0.1:9999 | grep LISTEN | grep java"
     @vm.run "sudo netstat -nltp | grep 127.0.0.1:3306 | grep LISTEN"
 
+    # test logrotate
     @vm.run "echo 'pouet\npipo\nmolo\nbidule\nchose\n' > /home/chef/fake.log"
     @vm.run "sudo logrotate -f /etc/logrotate.d/fake"
     rotated_file = @vm.capture("ls /home/chef/fake.log.1")
     assert_equal "/home/chef/fake.log.1\n", rotated_file
 
+    # test deleting files in logrotate.d
     @vm.run "sudo touch /etc/logrotate.d/todelete"
     @vm.run_chef
 
     files = @vm.capture "ls -1 /etc/logrotate.d/"
     assert_false files.split("\n").include?("todelete")
-
   end
 
 end

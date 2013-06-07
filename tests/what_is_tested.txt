@@ -9,6 +9,8 @@ conf 1
 * mysql on localhost
 * mysql database auto config (declared in confluence recipe)
 * nginx location on vhost
+* logrotate
+* purge logrotate.d
 
 conf 2
 
