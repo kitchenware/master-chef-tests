@@ -35,10 +35,10 @@ class TestConf1 < Test::Unit::TestCase
     ok = @vm.capture("echo -e 'flush_all\nquit' | nc localhost 11211")
     assert_equal "OK\r\n", ok
 
-    redis_maxclient = @vm.capture("cat /etc/redis/redis.conf | grep maxclients")
+    redis_maxclient = @vm.capture("sudo cat /etc/redis/redis.conf | grep maxclients")
     assert_equal "maxclients 128\n", redis_maxclient
 
-    redis_databases = @vm.capture("cat /etc/redis/redis.conf | egrep ^databases")
+    redis_databases = @vm.capture("sudo cat /etc/redis/redis.conf | egrep ^databases")
     assert_equal "databases 16\n", redis_databases
 
     pong = @vm.capture("(echo -en 'PING\r\n'; sleep 1) | nc localhost 6379")
