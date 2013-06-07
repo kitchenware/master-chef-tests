@@ -35,22 +35,5 @@
     }
   },
   "override_attributes" : {
-    "lvm" : {
-      "physical_volumes" : ["/dev/vdb"],
-      "volume_groups" : {
-        "vg.storage" : ["/dev/vdb"]
-      },
-      "logical_volumes"  : {
-        "lv.data" : {
-          "volume_group" : "vg.storage",
-          "size" : "100%FREE"
-        }
-      },
-      "mount_existing_path" : {
-        "dev/mapper/vg.storage-lv.data" : {
-          "target" : "/apps"
-        }
-      }
-    }
   }
 }

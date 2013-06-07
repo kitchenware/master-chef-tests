@@ -11,6 +11,9 @@ conf 1
 * nginx location on vhost
 * logrotate
 * purge logrotate.d
+* memcached
+* redis
+* mongodb
 
 conf 2
 
