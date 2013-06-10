@@ -42,6 +42,16 @@ class VmDriver
       prefix = "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]
       run "#{prefix} #{chef_cmd}"
     end
+    check_last_chef_run
+  end
+
+  def check_last_chef_run
+    last_chef_run = ENV['OMNIBUS'] ? "/opt/master-chef/var/last/log" : "/tmp/last_chef_log"
+    log = capture "sudo cat #{last_chef_run}"
+    raise "Not a chef log" unless log.match /INFO: \*\*\* Chef (.*) \*\*\*/
+    [/WARN:/, /Overriding duplicate/].each do |x|
+      raise "Error : pattern #{x} found in log" if log.match(x)
+    end
   end
 
   def upload_file from, to
