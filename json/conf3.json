@@ -34,6 +34,12 @@
           "type": "titi"
         }
       }
+    },
+    "symlink_folders": {
+      "/opt/kibana/shared/log": {
+        "target": "/var/log/kibana",
+        "impacted_services": ["kibana"]
+      }
     }
   }
 }

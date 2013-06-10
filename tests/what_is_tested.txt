@@ -48,6 +48,7 @@ conf 3
 * apache on 127.0.0.1:81, and reverse proxy from nginx
 * proxy_location in nginx
 * logstash / elasticsearch / kibana integration
+* symlink folders
 
 conf 4
 
