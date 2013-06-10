@@ -12,7 +12,8 @@
     "recipe[php5::apache2]",
     "recipe[php5::phpinfo]",
     "recipe[php5::apc]",
-    "recipe[rails]"
+    "recipe[rails]",
+    "recipe[mongodb::server]"
   ],
   "node_config": {
     "additional_packages": ["build-essential", "libmysqlclient-dev"],

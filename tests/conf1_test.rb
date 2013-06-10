@@ -45,11 +45,6 @@ class TestConf1 < Test::Unit::TestCase
 
     pong = @vm.capture("(echo -en 'PING\r\n'; sleep 1) | nc localhost 6379")
     assert_equal "+PONG\r\n", pong
-
-    #mongodb
-    @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
-    mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
-    assert mongo =~ /\"db\" : \"test\"/
   end
 
 end

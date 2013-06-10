@@ -65,6 +65,10 @@ class TestConf4 < Test::Unit::TestCase
     curl_http_code = @vm.capture "curl -sL -w \"%{http_code}\" \"http://localhost:2323/apc.php\" -o /dev/null"
     assert curl_http_code == "200"
 
+    #mongodb
+    @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
+    mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
+    assert mongo =~ /\"db\" : \"test\"/
   end
 
 end

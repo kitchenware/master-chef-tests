@@ -13,7 +13,6 @@ conf 1
 * purge logrotate.d
 * memcached
 * redis
-* mongodb
 
 conf 2
 
@@ -62,6 +61,7 @@ conf 4
 * deploy conf4 app_test rails app in nginx port 81, using user1
 * test 404 management for nginx rails app
 * ssh keys deployement for user1
+* mongodb
 
 conf 5
 
