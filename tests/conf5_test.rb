@@ -106,7 +106,7 @@ class TestConf5 < Test::Unit::TestCase
 
     exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git"
 
-    wait "Waiting push", 40, 5 do
+    wait "Waiting push", 120, 5 do
       exec_local "cd /tmp/#{project} && GIT_SSH=#{f.path} git push -u origin master"
     end
 
