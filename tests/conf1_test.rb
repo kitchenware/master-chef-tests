@@ -29,12 +29,14 @@ class TestConf1 < Test::Unit::TestCase
     files = @vm.capture "ls -1 /etc/logrotate.d/"
     assert_false files.split("\n").include?("todelete")
 
+    #memcached
     memory = @vm.capture("cat /etc/memcached.conf | grep 128")
     assert_equal "-m 128\n", memory
 
     ok = @vm.capture("echo -e 'flush_all\nquit' | nc localhost 11211")
     assert_equal "OK\r\n", ok
 
+    #redis
     redis_maxclient = @vm.capture("sudo cat /etc/redis/redis.conf | grep maxclients")
     assert_equal "maxclients 128\n", redis_maxclient
 
@@ -43,6 +45,12 @@ class TestConf1 < Test::Unit::TestCase
 
     pong = @vm.capture("(echo -en 'PING\r\n'; sleep 1) | nc localhost 6379")
     assert_equal "+PONG\r\n", pong
+
+    #mongodb
+    @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
+    mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
+    puts mongo
+
   end
 
 end
