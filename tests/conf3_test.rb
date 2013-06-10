@@ -10,6 +10,8 @@ class TestConf3 < Test::Unit::TestCase
     @vm.upload_json "conf3.json"
     @vm.run_chef
 
+    @vm.run "ls -al /opt/kibana/shared/log | grep '/var/log/kibana'"
+
     # check redmine
     @http.get 80, "/redmine"
     @http.assert_last_response_code 200

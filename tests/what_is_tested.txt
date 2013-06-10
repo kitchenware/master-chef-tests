@@ -11,6 +11,9 @@ conf 1
 * nginx location on vhost
 * logrotate
 * purge logrotate.d
+* memcached
+* redis
+* mongodb
 
 conf 2
 
@@ -26,6 +29,9 @@ conf 2
 * remove useless cron file in /etc/cron.d
 * install two jdk and use jdk7 as default
 * test ssh_accept_host_key
+* lvm pv, vg, lv
+* mount_existing_path
+* mount_new_path
 
 conf 3
 
@@ -42,6 +48,7 @@ conf 3
 * apache on 127.0.0.1:81, and reverse proxy from nginx
 * proxy_location in nginx
 * logstash / elasticsearch / kibana integration
+* symlink folders
 
 conf 4
 
