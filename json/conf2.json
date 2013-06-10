@@ -11,6 +11,7 @@
     "recipe[java::java_sun_java6]",
     "recipe[java::java_oracle_java7]",
     "recipe[cron]",
+    "recipe[lvm]",
     "recipe[jenkins]"
   ],
   "node_config": {
@@ -30,6 +31,35 @@
           "users": {
             "test": "mypassword"
           }
+        }
+      }
+    },
+    "lvm": {
+      "physical_volumes": ["/dev/loop0", "/dev/loop1"],
+      "volume_groups": {
+        "vg.storage" : ["/dev/loop0"],
+        "vg.test" : ["/dev/loop1"]
+      },
+      "logical_volumes": {
+        "lv.data": {
+          "volume_group": "vg.storage",
+          "size": "100%FREE"
+        },
+        "lv.test": {
+          "volume_group": "vg.test",
+          "size": "100%FREE"
+        }
+      },
+      "mount_existing_path": {
+        "/dev/mapper/vg.storage-lv.data": {
+          "impacted_services": ["jenkins"],
+          "target": "/jenkins"
+        }
+      },
+      "mount_new_path": {
+        "/dev/mapper/vg.test-lv.test": {
+          "fstype": "ext3",
+          "target": "/toto"
         }
       }
     }

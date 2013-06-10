@@ -29,6 +29,9 @@ conf 2
 * remove useless cron file in /etc/cron.d
 * install two jdk and use jdk7 as default
 * test ssh_accept_host_key
+* lvm pv, vg, lv
+* mount_existing_path
+* mount_new_path
 
 conf 3
 

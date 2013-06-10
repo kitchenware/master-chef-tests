@@ -6,8 +6,17 @@ class TestConf2 < Test::Unit::TestCase
   include WaitHelper
 
   def test_conf2
+    @vm.run "[ -f /my_loop_device_1 ] || sudo dd if=/dev/zero of=/my_loop_device_1 bs=200M count=1"
+    @vm.run "[ -f /my_loop_device_2 ] || sudo dd if=/dev/zero of=/my_loop_device_2 bs=20M count=1"
+    @vm.run "[ -f /dev/loop0 ] || sudo losetup /dev/loop0 /my_loop_device_1"
+    @vm.run "[ -f /dev/loop1 ] || sudo losetup /dev/loop1 /my_loop_device_2"
+
     @vm.upload_json "conf2.json"
     @vm.run_chef
+
+    # check lvm
+    @vm.run "mount | grep vg.storage-lv.data | grep '/jenkins' | grep ext4"
+    @vm.run "mount | grep vg.test-lv.test | grep '/toto' | grep ext3"
 
     @http.get 80, "/jenkins/"
     @http.assert_last_response_code 401
