@@ -27,7 +27,9 @@
       }
     },
     "logrotate" : {
-      "fake" : {"chef" : ["/home/chef/fake.log"]}
+      "fake" : {
+        "chef" : ["/home/chef/fake.log"]
+      }
     },
     "memcached":{
       "memory":"128",
