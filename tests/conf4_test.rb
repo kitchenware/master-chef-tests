@@ -68,7 +68,7 @@ class TestConf4 < Test::Unit::TestCase
     #mongodb
     @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
     mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
-    assert mongo =~ /\"db\" : \"test\"/
+    assert_match /\"db\" : \"test\"/, mongo
   end
 
 end

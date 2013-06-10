@@ -45,8 +45,8 @@ class TestConf1 < Test::Unit::TestCase
     redis_databases = @vm.capture("sudo cat /etc/redis/redis.conf | egrep ^databases")
     assert_equal "databases 16\n", redis_databases
 
-    pong = @vm.capture("(echo -en 'PING\r\n'; sleep 1) | nc localhost 6379")
-    assert_equal "+PONG\r\n", pong
+    pong = @vm.capture("echo -en 'PING\r\nQUIT\r\n' | nc localhost 6379")
+    assert_match /\+PONG/, pong
   end
 
 end
