@@ -59,7 +59,8 @@
       "mount_new_path": {
         "/dev/mapper/vg.test-lv.test": {
           "fstype": "ext3",
-          "target": "/toto"
+          "target": "/toto",
+          "owner": "chef"
         }
       }
     }

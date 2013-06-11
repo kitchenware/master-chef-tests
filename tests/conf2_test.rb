@@ -17,6 +17,7 @@ class TestConf2 < Test::Unit::TestCase
     # check lvm
     @vm.run "mount | grep vg.storage-lv.data | grep '/jenkins' | grep ext4"
     @vm.run "mount | grep vg.test-lv.test | grep '/toto' | grep ext3"
+    @vm.run "echo titi > /toto/tata"
 
     @http.get 80, "/jenkins/"
     @http.assert_last_response_code 401
