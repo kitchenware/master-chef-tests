@@ -49,7 +49,11 @@ class VmDriver
     last_chef_run = ENV['OMNIBUS'] ? "/opt/master-chef/var/last/log" : "/tmp/last_chef_log"
     log = capture "sudo cat #{last_chef_run}"
     raise "Not a chef log" unless log.match /INFO: \*\*\* Chef (.*) \*\*\*/
-    [/WARN:/, /Overriding duplicate/].each do |x|
+    [
+      /WARN:/,
+      # waitt for http://tickets.opscode.com/browse/CHEF-3817
+      #/Overriding duplicate/
+    ].each do |x|
       raise "Error : pattern #{x} found in log" if log.match(x)
     end
   end
