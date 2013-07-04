@@ -8,8 +8,9 @@
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
     "recipe[redmine]",
-    "recipe[node_logstash::server]",
-    "recipe[node_logstash]"
+    "recipe[node_logstash]",
+    "recipe[elasticsearch]",
+    "recipe[kibana]"
   ],
   "node_config": {
     "timezone": "Europe/Paris",
