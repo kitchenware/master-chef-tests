@@ -10,7 +10,9 @@
     "recipe[redmine]",
     "recipe[node_logstash]",
     "recipe[elasticsearch]",
-    "recipe[kibana]"
+    "recipe[kibana]",
+    "recipe[kibana::kibana3]",
+    "recipe[kibana::kibana3-eslocal]"
   ],
   "node_config": {
     "timezone": "Europe/Paris",

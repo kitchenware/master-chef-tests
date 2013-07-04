@@ -54,6 +54,18 @@ class TestConf3 < Test::Unit::TestCase
       assert_equal json['hits']['total'], total + 1
     end
 
+    # check es mapping in nginx
+    @http.get 80, "/_aliases"
+    @http.assert_last_response_code 200
+    json = JSON.parse @http.response.body
+    assert json.keys.first.match /^logstash/
+
+    # check kibana 3
+    @http.get 80, "/kibana3/config.js"
+    @http.assert_last_response_code 200
+    @http.assert_last_response_body_regex /window.location.protocol/
+    @http.assert_last_response_body_regex /window.location.hostname/
+
   end
 
 end

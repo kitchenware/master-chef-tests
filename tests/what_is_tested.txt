@@ -43,7 +43,9 @@ conf 3
 * nginx location on vhost
 * mutiple locales
 * change timezone to Europe/Paris
-* kibana / elastic search
+* elastic search
+* kibana 2
+* kibana 3
 * apache on 127.0.0.1:81, and reverse proxy from nginx
 * proxy_location in nginx
 * logstash / elasticsearch / kibana integration
