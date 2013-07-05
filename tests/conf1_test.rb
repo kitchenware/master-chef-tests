@@ -35,8 +35,10 @@ class TestConf1 < Test::Unit::TestCase
     memory = @vm.capture("cat /etc/memcached.conf | grep 128")
     assert_equal "-m 128\n", memory
 
-    ok = @vm.capture("echo -e 'flush_all\nquit' | nc localhost 11211")
-    assert_equal "OK\r\n", ok
+    wait "Waiting memcached ready", 30, 5 do
+      ok = @vm.capture("echo -e 'flush_all\nquit' | nc localhost 11211")
+      assert_equal "OK\r\n", ok
+    end
 
     #redis
     redis_maxclient = @vm.capture("sudo cat /etc/redis/redis.conf | grep maxclients")
@@ -45,8 +47,10 @@ class TestConf1 < Test::Unit::TestCase
     redis_databases = @vm.capture("sudo cat /etc/redis/redis.conf | egrep ^databases")
     assert_equal "databases 16\n", redis_databases
 
-    pong = @vm.capture("echo -en 'PING\r\nQUIT\r\n' | nc localhost 6379")
-    assert_match /\+PONG/, pong
+    wait "Waiting redis ready", 30, 5 do
+    	pong = @vm.capture("echo -en 'PING\r\nQUIT\r\n' | nc localhost 6379")
+    	assert_match /\+PONG/, pong
+    end
   end
 
 end
