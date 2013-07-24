@@ -51,8 +51,7 @@ class VmDriver
     raise "Not a chef log" unless log.match /INFO: \*\*\* Chef (.*) \*\*\*/
     [
       /WARN:/,
-      # waitt for http://tickets.opscode.com/browse/CHEF-3817
-      #/Overriding duplicate/
+      /Overriding duplicate/
     ].each do |x|
       raise "Error : pattern #{x} found in log" if log.match(x)
     end
