@@ -12,5 +12,8 @@
     "recipe[gitlab]"
   ],
   "node_config": {
+    "mysql": {
+      "use_percona": true
+    }
   }
 }
