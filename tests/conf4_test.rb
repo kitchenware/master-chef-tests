@@ -28,6 +28,13 @@ class TestConf4 < Test::Unit::TestCase
     @http.assert_last_response_code 200
     @http.assert_last_response_body_regex /It works!/
 
+    # Check remove apache2 configuration file
+    apache2_conf_file = @vm.capture("ls /etc/apache2/conf.d").split("\n")
+    @vm.run "sudo touch /etc/apache2/conf.d/toDelete"
+    @vm.run_chef
+    new_apache2_conf_file = @vm.capture("ls /etc/apache2/conf.d").split("\n")
+    assert_equal apache2_conf_file, new_apache2_conf_file
+
     # check php deployment
     @http.get 80, "/phpinfo.php", 'u1', 'u1pass'
     @http.assert_last_response_code 200
