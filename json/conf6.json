@@ -13,7 +13,8 @@
     "recipe[graphite]",
     "recipe[graphite::bucky]",
     "recipe[graphite::statsd]",
-    "recipe[node_logstash]"
+    "recipe[node_logstash]",
+    "recipe[haproxy]"
   ],
   "node_config": {
     "ssh_keys": {

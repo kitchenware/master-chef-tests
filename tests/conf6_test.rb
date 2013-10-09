@@ -10,6 +10,9 @@ class TestConf6 < Test::Unit::TestCase
     @vm.upload_json "conf6.json"
     @vm.run_chef
 
+    # check haproxy
+    @vm.run "curl -s -f http://localhost:8076 -o /dev/null"
+
     # check sudo
     exec_local "ssh #{SSH_OPTS} nodejs@#{@vm.ip} sudo ls /root"
 
