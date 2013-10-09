@@ -8,8 +8,8 @@ class TestConf2 < Test::Unit::TestCase
   def test_conf2
     @vm.run "[ -f /my_loop_device_1 ] || sudo dd if=/dev/zero of=/my_loop_device_1 bs=200M count=1"
     @vm.run "[ -f /my_loop_device_2 ] || sudo dd if=/dev/zero of=/my_loop_device_2 bs=20M count=1"
-    @vm.run "[ -f /dev/loop0 ] || sudo losetup /dev/loop0 /my_loop_device_1"
-    @vm.run "[ -f /dev/loop1 ] || sudo losetup /dev/loop1 /my_loop_device_2"
+    @vm.run "[ -f /loop0_ok ] || (sudo losetup /dev/loop0 /my_loop_device_1 && sudo touch /loop0_ok)"
+    @vm.run "[ -f /loop1_ok ] || (sudo losetup /dev/loop1 /my_loop_device_2 && sudo touch /loop1_ok)"
 
     @vm.upload_json "conf2.json"
     @vm.run_chef
