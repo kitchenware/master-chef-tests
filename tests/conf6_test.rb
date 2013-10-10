@@ -33,7 +33,7 @@ class TestConf6 < Test::Unit::TestCase
     @http.assert_last_response_body_regex /Graphite Browser/
 
     # check collectd has sent data into graphite, using bucky
-    wait "Waiting data from collected", 300, 10 do
+    wait "Waiting data from collectd", 300, 10 do
       @http.get 80, "/render/?target=#{hostname}.cpu.0.idle&rawData=csv"
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /#{hostname}/
