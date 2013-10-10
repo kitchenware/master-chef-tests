@@ -37,7 +37,7 @@ class TestConf3 < Test::Unit::TestCase
 
     total = -1
 
-    wait "Waiting kibana ready with some data", 60, 5 do
+    wait "Waiting kibana ready with some data", 180, 5 do
       @http.get 80, "/api/search/eyJzZWFyY2giOiJhYmNkIiwiZmllbGRzIjpbXSwib2Zmc2V0IjowLCJ0aW1lZnJhbWUiOiI5MDAiLCJncmFwaG1vZGUiOiJjb3VudCIsInN0YW1wIjoxMzQ4MTgxNTE2MDk2fQ==?_=#{Time.now.to_i}"
       @http.assert_last_response_code 200
       json = JSON.parse @http.response.body
