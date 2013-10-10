@@ -56,7 +56,7 @@ class TestConf2 < Test::Unit::TestCase
     assert_match /1.7.0_07/, java_version
     @http.get 80, "/jenkins/systemInfo", 'test', 'mypassword'
     @http.assert_last_response_code 200
-    asert_match /1\.7\.0_07/, @http.response.body@http.gsub("<wbr>","")
+    assert_match /1\.7\.0_07/, @http.response.body.gsub("<wbr>","")
 
     # testing ssh_accept_host_key
     @vm.run "ssh-keygen -F localhost"
