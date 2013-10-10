@@ -3,6 +3,7 @@ require File.join(File.dirname(__FILE__), '..', 'helper.rb')
 class TestConf4 < Test::Unit::TestCase
 
   include VmTestHelper
+  include WaitHelper
 
   def test_conf4
     @vm.upload_json "conf4.json"
