@@ -36,7 +36,7 @@ class VmDriver
     if ENV["CHEF_LOCAL"]
       exec_local "../../runtime/chef_local.rb #{ip}"
     else
-      chef_cmd = ENV['OMNIBUS'] ? "/opt/master-chef/bin/master-chef.sh" : "/etc/chef/update.sh"
+      chef_cmd = "/opt/master-chef/bin/master-chef.sh"
       prefix = ""
       prefix = "http_proxy=http://#{ENV["PROXY_IP"]}:3128 https_proxy=http://#{ENV["PROXY_IP"]}:3128" if ENV["PROXY_IP"]
       prefix = "http_proxy=#{ENV["PROXY"]} https_proxy=#{ENV["PROXY"]}" if ENV["PROXY"]
@@ -46,7 +46,7 @@ class VmDriver
   end
 
   def check_last_chef_run
-    last_chef_run = ENV['OMNIBUS'] ? "/opt/master-chef/var/last/log" : "/tmp/last_chef_log"
+    last_chef_run = "/opt/master-chef/var/last/log"
     log = capture "sudo cat #{last_chef_run}"
     raise "Not a chef log" unless log.match /INFO: \*\*\* Chef (.*) \*\*\*/
     [
@@ -63,7 +63,7 @@ class VmDriver
 
   def upload_json json
     upload_file File.join(File.dirname(__FILE__), "json", json), "/tmp/local.json"
-    json_path = ENV['OMNIBUS'] ? "/opt/master-chef/etc" : "/etc/chef"
+    json_path = "/opt/master-chef/etc"
     self.run "sudo mv /tmp/local.json #{json_path}/local.json"
   end
 
