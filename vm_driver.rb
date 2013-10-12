@@ -1,7 +1,7 @@
 
 require 'tempfile'
 
-ssh_config_file = Tempfile.new '_ssh_config'
+ssh_config_file = Tempfile.new '_ssh_config_' + Process.pid.to_s
 user_ssh_config_file = File.join(ENV['HOME'], '.ssh', 'config')
 ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
 ssh_config_file.write(File.read(File.join(File.dirname(__FILE__), "ssh", "config")))
