@@ -84,7 +84,7 @@ class TestConf5 < Test::Unit::TestCase
 
     cookie = @http.extract_set_cookie
 
-    @http.post_form 80, "/users/sign_in", {"user[remember_me]" => 0, "user[email]" => mail, "user[password]" => password, "authenticity_token" => authenticity_token}, nil, nil, {'cookie' => cookie}
+    @http.post_form 80, "/users/sign_in", {"user[remember_me]" => 0, "user[login]" => mail, "user[password]" => password, "authenticity_token" => authenticity_token}, nil, nil, {'cookie' => cookie}
     @http.assert_last_response_code 302
     assert_nil @http.response['location'] =~ /sign_in/
 
@@ -115,7 +115,7 @@ class TestConf5 < Test::Unit::TestCase
     wait "Waiting push processed", 40, 2 do
       @http.get 80, "/dashboard.atom?private_token=#{token}"
       @http.assert_last_response_code 200
-      @http.assert_last_response_body_regex /#{username} pushed new branch master at #{project}/
+      @http.assert_last_response_body_regex /#{username} pushed new branch master at #{username} . #{project}/
     end
 
     last_commit = capture_local "cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'"

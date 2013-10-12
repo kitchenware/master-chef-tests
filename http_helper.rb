@@ -43,8 +43,7 @@ class HttpTester
   end
 
   def extract_set_cookie
-    response['set-cookie'] =~ /(\S+=[^;]*);/
-    cookie = $1
+    cookie = response['set-cookie']
     assert_not_nil cookie
     assert cookie.length > 0
     cookie
