@@ -99,7 +99,7 @@ class TestConf5 < Test::Unit::TestCase
     @dir = "/tmp/#{project}"
 
     f = Tempfile.new "git_ssh"
-    f.write "ssh #{SSH_OPTS} \"$@\""
+    f.write "ssh #{@ssh_opts} \"$@\""
     f.close
 
     exec_local "chmod +x #{f.path}"

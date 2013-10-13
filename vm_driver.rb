@@ -1,21 +1,12 @@
 
 require 'tempfile'
 
-ssh_config_file = Tempfile.new('_ssh_config_' + Process.pid.to_s)
-user_ssh_config_file = File.join(ENV['HOME'], '.ssh', 'config')
-ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
-ssh_config_file.write(File.read(File.join(File.dirname(__FILE__), "ssh", "config")))
-ssh_config_file.close
-SSH_CONFIG_FILE = ssh_config_file.path
-SSH_KEY = File.join(File.dirname(__FILE__), "ssh", "id_rsa")
-SSH_OPTS = "-F #{SSH_CONFIG_FILE} -i #{SSH_KEY}"
-%x{chmod 0600 #{SSH_KEY}}
-%x{rm -f /tmp/tmp_known_hosts}
-
 class VmDriver
 
+  attr_accessor :ssh_opts
+
   def format_chef_ssh cmd
-    "ssh #{SSH_OPTS} #{CHEF_USER}@#{ip} \"#{cmd}\""
+    "ssh #{@ssh_opts} #{CHEF_USER}@#{ip} \"#{cmd}\""
   end
 
   def run cmd
@@ -58,7 +49,7 @@ class VmDriver
   end
 
   def upload_file from, to
-    exec_local "scp #{SSH_OPTS} #{from} #{CHEF_USER}@#{ip}:#{to}"
+    exec_local "scp #{@ssh_opts} #{from} #{CHEF_USER}@#{ip}:#{to}"
   end
 
   def upload_json json

@@ -14,7 +14,7 @@ class TestConf6 < Test::Unit::TestCase
     @vm.run "curl -s -f http://localhost:8076 -o /dev/null"
 
     # check sudo
-    exec_local "ssh #{SSH_OPTS} nodejs@#{@vm.ip} sudo ls /root"
+    exec_local "ssh #{@ssh_opts} nodejs@#{@vm.ip} sudo ls /root"
 
     # deploy and check node application
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "nodejs_app_test")} && TARGET=#{@vm.ip} cap deploy"
