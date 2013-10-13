@@ -29,27 +29,27 @@ module VmTestHelper
   end
 
   def setup_ssh
-    tmp_known_hosts = Tempfile.new('_ssh_known_hosts' + Process.pid.to_s)
-    tmp_known_hosts.close
-    @tmp_known_hosts = tmp_known_hosts.path
-    ssh_config_file = Tempfile.new('_ssh_config_' + Process.pid.to_s)
+    @ssh_known_hosts = "/tmp/_ssh_known_hosts_" + Process.pid.to_s
+    @ssh_config_file = "/tmp/_ssh_config_" + Process.pid.to_s
+    ssh_config_file = File.open(@ssh_config_file, 'w')
+
     user_ssh_config_file = File.join(ENV['HOME'], '.ssh', 'config')
     ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
+
     [
       "ConnectTimeout 5",
       "BatchMode yes",
       "StrictHostKeyChecking no",
       "CheckHostIP no",
       "VerifyHostKeyDNS no",
-      "UserKnownHostsFile #{@tmp_known_hosts}",
+      "UserKnownHostsFile #{@ssh_known_hosts}",
     ].each do |x|
       ssh_config_file.puts x
     end
     ssh_config_file.close
 
-    ssh_config_file = ssh_config_file.path
     ssh_key = File.join(File.dirname(__FILE__), "ssh", "id_rsa")
-    @ssh_opts = "-F #{ssh_config_file} -i #{ssh_key}"
+    @ssh_opts = "-F #{@ssh_config_file} -i #{ssh_key}"
 
     %x{chmod 0600 #{ssh_key}}
   end
@@ -87,7 +87,8 @@ module VmTestHelper
 
   def teardown
     @vm.destroy if @vm && !ENV['DO_NOT_DESTROY_VM']
-    File.unlink @tmp_known_hosts if @tmp_known_hosts && File.exist?(@tmp_known_hosts)
+    File.unlink @ssh_known_hosts if @ssh_known_hosts && File.exist?(@ssh_known_hosts)
+    File.unlink @ssh_config_file if @ssh_config_file && File.exist?(@ssh_config_file)
   end
 
 end
