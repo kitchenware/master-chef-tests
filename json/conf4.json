@@ -13,7 +13,8 @@
     "recipe[php5::phpinfo]",
     "recipe[php5::apc]",
     "recipe[rails]",
-    "recipe[mongodb::server]"
+    "recipe[mongodb::server]",
+    "recipe[dbmgr]"
   ],
   "node_config": {
     "additional_packages": ["build-essential", "libmysqlclient-dev"],
@@ -30,6 +31,13 @@
           "users": {
             "u1": "u1pass"
           }
+        }
+      }
+    },
+    "dbmgr": {
+      "files": {
+        "/tmp/dbmgr.sh": {
+          "owner": "chef"
         }
       }
     },
@@ -74,7 +82,11 @@
           "host": "localhost",
           "username": "toto",
           "password": "titi",
-          "database": "db_test"
+          "database": "db_test",
+          "mysql_wrapper": {
+            "file": "/tmp/wrapper.sh",
+            "owner": "chef"
+          }
         }
       }
     },

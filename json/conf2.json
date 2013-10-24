@@ -7,6 +7,7 @@
   "run_list": [
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
+    "recipe[dbmgr]",
     "recipe[munin::local]",
     "recipe[postgresql::server]",
     "recipe[java::java_sun_java6]",
@@ -24,9 +25,18 @@
           "host": "localhost",
           "database": "tata",
           "postgresql_wrapper": {
-            "file": "/tmp/toto.sh",
+            "file": "/tmp/wrapper.sh",
             "owner": "chef"
           }
+        }
+      },
+      "listen_addresses": "*"
+    },
+    "dbmgr": {
+      "files": {
+        "/tmp/dbmgr.sh": {
+          "owner": "chef",
+          "driver": "postgresql"
         }
       }
     },

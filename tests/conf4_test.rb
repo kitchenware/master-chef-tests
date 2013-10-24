@@ -14,6 +14,17 @@ class TestConf4 < Test::Unit::TestCase
 
     # check mysql config
     @vm.run "echo 'SELECT 1;' | mysql --user=toto --password=titi db_test > /dev/null"
+    @vm.run "echo 'SELECT 1;' | /tmp/wrapper.sh > /dev/null"
+
+    # dbmgr test
+    @vm.run "echo 'DROP TABLE toto;' | /tmp/wrapper.sh > /dev/null"
+    @vm.run "echo 'DROP TABLE playedsqlscripts;' | /tmp/wrapper.sh > /dev/null"
+    @vm.run "mkdir -p /tmp/toto && echo 'CREATE TABLE toto (c int);' > /tmp/toto/00-create.sql && echo 'INSERT INTO toto (c) VALUES (42);' > /tmp/toto/01-insert.sql"
+    @vm.run "/tmp/dbmgr.sh --cmd /tmp/wrapper.sh --version toto --dir /tmp/toto > /tmp/log"
+    @vm.run "cat /tmp/log | grep -v 'to run' | grep '^+'"
+    @vm.run "/tmp/dbmgr.sh --cmd /tmp/wrapper.sh --version toto --dir /tmp/toto > /tmp/log"
+    @vm.run_fail "cat /tmp/log | grep -v 'to run' | grep '^+'"
+    @vm.run "echo 'SELECT c FROM toto;' | /tmp/wrapper.sh | grep 42"
 
     # check tomcat deployment
     wait "tomcat deployment", 60, 5 do

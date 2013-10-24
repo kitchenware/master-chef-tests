@@ -61,13 +61,26 @@ class TestConf2 < Test::Unit::TestCase
     # testing ssh_accept_host_key
     @vm.run "ssh-keygen -F localhost"
 
+    # test postgresql is open on 0.0.0.0
+    @vm.run "sudo netstat -nltp | grep 0.0.0.0:5432 | grep LISTEN"
+
     # test postgresql
     @vm.run "PGPASSWORD=mypassword psql --username titi tata --command='SELECT 1;' > /dev/null"
     @vm.run "PGPASSWORD=mypassword psql --host localhost --username titi tata --command='SELECT 1;' > /dev/null"
     @vm.run_fail "PGPASSWORD=mypassword psql --username titi postgres --command='SELECT 1;' > /dev/null"
     @vm.run "sudo psql postgres --command='SELECT 1;' > /dev/null"
     @vm.run "sudo psql tata --command='SELECT 1;' > /dev/null"
-    @vm.run "/tmp/toto.sh --command='SELECT 1;' > /dev/null"
+    @vm.run "/tmp/wrapper.sh --command='SELECT 1;' > /dev/null"
+
+    # test dbmgr
+    @vm.run "/tmp/wrapper.sh --command 'DROP TABLE toto;' || true"
+    @vm.run "/tmp/wrapper.sh --command 'DROP TABLE playedsqlscripts;' || true"
+    @vm.run "mkdir -p /tmp/toto && echo 'CREATE TABLE toto (c int);' > /tmp/toto/00-create.sql && echo 'INSERT INTO toto (c) VALUES (42);' > /tmp/toto/01-insert.sql"
+    @vm.run "/tmp/dbmgr.sh --cmd /tmp/wrapper.sh --version toto --dir /tmp/toto > /tmp/log"
+    @vm.run "cat /tmp/log | grep -v 'to run' | grep '^+'"
+    @vm.run "/tmp/dbmgr.sh --cmd /tmp/wrapper.sh --version toto --dir /tmp/toto > /tmp/log"
+    @vm.run_fail "cat /tmp/log | grep -v 'to run' | grep '^+'"
+    @vm.run "echo 'SELECT c FROM toto;' | /tmp/wrapper.sh | grep 42"
   end
 
 end

@@ -32,6 +32,7 @@ conf 2
 * mount_existing_path
 * mount_new_path
 * postgresql
+* dbmgr on postgresql
 
 conf 3
 
@@ -66,6 +67,7 @@ conf 4
 * test 404 management for nginx rails app
 * ssh keys deployement for user1
 * mongodb
+* dbmgr on mysql
 
 conf 5
 
