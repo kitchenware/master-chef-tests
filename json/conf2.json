@@ -18,10 +18,11 @@
   "node_config": {
     "postgresql": {
       "databases": {
-        "tata": {
+        "tutu": {
           "username": "titi",
           "password": "mypassword",
-          "host": "localhost"
+          "host": "localhost",
+          "database": "tata"
         }
       }
     },
