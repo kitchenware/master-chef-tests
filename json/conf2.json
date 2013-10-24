@@ -8,6 +8,7 @@
     "recipe[base::system]",
     "recipe[master_chef::chef_solo_scripts]",
     "recipe[munin::local]",
+    "recipe[postgresql::server]",
     "recipe[java::java_sun_java6]",
     "recipe[java::java_oracle_java7]",
     "recipe[cron]",
@@ -15,6 +16,15 @@
     "recipe[jenkins]"
   ],
   "node_config": {
+    "postgresql": {
+      "databases": {
+        "tata": {
+          "username": "titi",
+          "password": "mypassword",
+          "host": "localhost"
+        }
+      }
+    },
     "java": {
         "default_version" : "oracle_java7"
     },

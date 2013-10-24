@@ -60,6 +60,13 @@ class TestConf2 < Test::Unit::TestCase
 
     # testing ssh_accept_host_key
     @vm.run "ssh-keygen -F localhost"
+
+    # test postgresql
+    @vm.run "PGPASSWORD=mypassword psql --username titi tata --command='SELECT 1;' > /dev/null"
+    @vm.run "PGPASSWORD=mypassword psql --host localhost --username titi tata --command='SELECT 1;' > /dev/null"
+    @vm.run_fail "PGPASSWORD=mypassword psql --username titi postgres --command='SELECT 1;' > /dev/null"
+    @vm.run "sudo psql postgres --command='SELECT 1;' > /dev/null"
+    @vm.run "sudo psql tata --command='SELECT 1;' > /dev/null"
   end
 
 end

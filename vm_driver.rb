@@ -17,6 +17,14 @@ class VmDriver
     end
   end
 
+  def run_fail cmd
+    begin
+      system format_chef_ssh(cmd)
+      raise "ssh #{CHEF_USER} : #{cmd} should fail. Aborting..."
+    rescue
+    end
+  end
+
   def capture cmd
     result = `#{format_chef_ssh(cmd)}`
     raise "ssh capture #{CHEF_USER} : #{cmd} failed. Aborting..." unless $?.exitstatus == 0

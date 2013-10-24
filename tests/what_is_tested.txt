@@ -31,6 +31,7 @@ conf 2
 * lvm pv, vg, lv
 * mount_existing_path
 * mount_new_path
+* postgresql
 
 conf 3
 
