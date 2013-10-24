@@ -67,6 +67,7 @@ class TestConf2 < Test::Unit::TestCase
     @vm.run_fail "PGPASSWORD=mypassword psql --username titi postgres --command='SELECT 1;' > /dev/null"
     @vm.run "sudo psql postgres --command='SELECT 1;' > /dev/null"
     @vm.run "sudo psql tata --command='SELECT 1;' > /dev/null"
+    @vm.run "/tmp/toto.sh --command='SELECT 1;' > /dev/null"
   end
 
 end

@@ -22,7 +22,11 @@
           "username": "titi",
           "password": "mypassword",
           "host": "localhost",
-          "database": "tata"
+          "database": "tata",
+          "postgresql_wrapper": {
+            "file": "/tmp/toto.sh",
+            "owner": "chef"
+          }
         }
       }
     },
