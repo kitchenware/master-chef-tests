@@ -17,8 +17,8 @@ class TestConf4 < Test::Unit::TestCase
     @vm.run "echo 'SELECT 1;' | /tmp/wrapper.sh > /dev/null"
 
     # dbmgr test
-    @vm.run "echo 'DROP TABLE toto;' | /tmp/wrapper.sh > /dev/null"
-    @vm.run "echo 'DROP TABLE playedsqlscripts;' | /tmp/wrapper.sh > /dev/null"
+    @vm.run "echo 'DROP TABLE IF EXISTS toto;' | /tmp/wrapper.sh > /dev/null"
+    @vm.run "echo 'DROP TABLE IF EXISTS playedsqlscripts;' | /tmp/wrapper.sh > /dev/null"
     @vm.run "mkdir -p /tmp/toto && echo 'CREATE TABLE toto (c int);' > /tmp/toto/00-create.sql && echo 'INSERT INTO toto (c) VALUES (42);' > /tmp/toto/01-insert.sql"
     @vm.run "/tmp/dbmgr.sh --cmd /tmp/wrapper.sh --version toto --dir /tmp/toto > /tmp/log"
     @vm.run "cat /tmp/log | grep -v 'to run' | grep '^+'"
