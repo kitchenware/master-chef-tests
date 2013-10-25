@@ -15,6 +15,12 @@
   ],
   "node_config": {
     "confluence": {
+      "crowd" : {
+        "enabled" : false,
+        "crowd_url" : "http://crowd/crowd",
+        "crowd_application_name" : "confluence",
+        "crowd_application_password" : "password"
+      },
       "location": "/toto",
       "tomcat": {
         "connectors": {

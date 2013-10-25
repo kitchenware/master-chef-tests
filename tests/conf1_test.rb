@@ -9,14 +9,25 @@ class TestConf1 < Test::Unit::TestCase
     @vm.upload_json "conf1.json"
     @vm.run_chef
 
-    # Check confluence
-    wait "waiting confluence init", 30, 5 do
+    Check confluence
+    wait "waiting confluence init", 60, 5 do
         @http.get 80, "/toto/setup/setuplicense.action"
         @http.assert_last_response_code 200
         @http.assert_last_response_body_regex /Confluence Setup Wizard/
     end
     @vm.run "sudo netstat -nltp | grep 127.0.0.1:9999 | grep LISTEN | grep java"
     @vm.run "sudo netstat -nltp | grep 127.0.0.1:3306 | grep LISTEN"
+
+    # check confluence crowd integration
+    @vm.run "sudo sed -i 's/false/true/g' /opt/master-chef/etc/local.json"
+    # very uggly thing to force chef to resintall confluence with crowd integration
+    @vm.run "sudo rm -rf /opt/tomcat && sudo rm -rf /confluence"
+
+    @vm.run_chef
+    @vm.run "[ -f /opt/tomcat/instances/confluence/webapps/toto/WEB-INF/lib/crowd-integration-client-2.2.7.jar ]"
+    @vm.run "[ -f /opt/tomcat/instances/confluence/webapps/toto/WEB-INF/classes/crowd.properties ]"
+    @vm.run "[ -f /opt/tomcat/instances/confluence/webapps/toto/WEB-INF/classes/crowd-ehcache.xml ]"
+    @vm.run "cat /opt/tomcat/instances/confluence/webapps/toto/WEB-INF/classes/atlassian-user.xml | grep crowd"
 
     # test logrotate
     @vm.run "echo 'pouet\npipo\nmolo\nbidule\nchose\n' > /home/chef/fake.log"
@@ -51,6 +62,7 @@ class TestConf1 < Test::Unit::TestCase
     	pong = @vm.capture("echo -en 'PING\r\nQUIT\r\n' | nc localhost 6379")
     	assert_match /\+PONG/, pong
     end
+
   end
 
 end
