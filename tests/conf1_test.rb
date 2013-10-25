@@ -9,7 +9,7 @@ class TestConf1 < Test::Unit::TestCase
     @vm.upload_json "conf1.json"
     @vm.run_chef
 
-    Check confluence
+    # Check confluence
     wait "waiting confluence init", 60, 5 do
         @http.get 80, "/toto/setup/setuplicense.action"
         @http.assert_last_response_code 200
