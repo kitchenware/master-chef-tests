@@ -33,7 +33,7 @@ class VmDriver
 
   def run_chef
     if ENV["CHEF_LOCAL"]
-      exec_local "../../runtime/chef_local.rb #{ip}"
+      exec_local "../master-chef/runtime/chef_local.rb #{ip}"
     else
       chef_cmd = "/opt/master-chef/bin/master-chef.sh"
       prefix = ""

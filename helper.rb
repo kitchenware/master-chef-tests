@@ -79,8 +79,12 @@ module VmTestHelper
       prefix += "PROXY=#{ENV["PROXY"]} " if ENV["PROXY"]
       prefix += "MASTER_CHEF_URL=#{ENV["MASTER_CHEF_URL"]} " if ENV["MASTER_CHEF_URL"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]} " if ENV["MASTER_CHEF_HASH_CODE"]
-      source_file = File.join(File.dirname(__FILE__), '..', 'runtime', 'bootstrap.sh')
-      exec_local "cat #{source_file} | ssh #{@ssh_opts} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
+      if ENV["CHEF_LOCAL"]
+        source_file = "cat #{File.join(File.dirname(__FILE__), '..', 'master-chef', 'runtime', 'bootstrap.sh')}"
+      else
+        source_file = "curl -s http://rawgithub.com/kitchenware/master-chef/master/runtime/bootstrap.sh"
+      end
+      exec_local "#{source_file} | ssh #{@ssh_opts} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
       puts "Chef installed"
     end
   end
