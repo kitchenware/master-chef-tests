@@ -74,25 +74,6 @@ class TestConf5 < Test::Unit::TestCase
 
     end
 
-    wait "Waiting gitlab sign_in", 300, 2 do
-      @http.get 80, "/users/sign_in", nil, nil, {'cookie' => cookie}
-      @http.assert_last_response_code 200
-    end
-
-    @http.response.body =~ /authenticity_token\"[^>]+value=\"([^\"]+)\"/
-    authenticity_token = $1
-
-    cookie = @http.extract_set_cookie
-
-    @http.post_form 80, "/users/sign_in", {"user[remember_me]" => 0, "user[login]" => mail, "user[password]" => password, "authenticity_token" => authenticity_token}, nil, nil, {'cookie' => cookie}
-    @http.assert_last_response_code 302
-    assert_nil @http.response['location'] =~ /sign_in/
-
-    cookie = @http.extract_set_cookie
-
-    @http.get 80, "/", nil, nil, {'cookie' => cookie}
-    @http.assert_last_response_code 200
-
     @http.post_form 80, "/api/v3/projects?private_token=#{token}", {:name => project}
     @http.assert_last_response_code 201
 
@@ -104,7 +85,7 @@ class TestConf5 < Test::Unit::TestCase
 
     exec_local "chmod +x #{f.path}"
 
-    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git"
+    exec_local "cd /tmp && mkdir #{project} && cd #{project} && git init && echo burp_#{project} > README && git add README && git commit -m 'Init commit' && git remote add origin git@#{@vm.ip}:#{username}/#{project}.git"
 
     wait "Waiting push", 120, 5 do
       exec_local "cd /tmp/#{project} && GIT_SSH=#{f.path} git push -u origin master"
@@ -112,17 +93,11 @@ class TestConf5 < Test::Unit::TestCase
 
     exec_local "cd /tmp/#{project} && date >> README && git add README && git commit -a -m 'Update Readme' && GIT_SSH=#{f.path} git push"
 
-    wait "Waiting push processed", 40, 2 do
-      @http.get 80, "/dashboard.atom?private_token=#{token}"
-      @http.assert_last_response_code 200
-      @http.assert_last_response_body_regex /#{username} pushed new branch master at #{username} . #{project}/
-    end
+    last_commit = capture_local("cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'").strip
 
-    last_commit = capture_local "cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'"
-
-    @http.get 80, "/#{username}/#{project}/commit/#{last_commit}", nil, nil, {'cookie' => cookie}
+    @http.get 80, "/api/v3/projects/toto%2F#{project}/events?private_token=#{token}"
     @http.assert_last_response_code 200
-    assert @http.response.body =~ /burp_#{project}/
+    assert @http.response.body.include? last_commit
 
   end
 
