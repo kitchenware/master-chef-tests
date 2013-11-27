@@ -37,6 +37,8 @@ module VmTestHelper
     ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
 
     [
+      "Host *",
+      "",
       "ConnectTimeout 5",
       "BatchMode yes",
       "StrictHostKeyChecking no",
