@@ -43,6 +43,7 @@ module VmTestHelper
       "CheckHostIP no",
       "VerifyHostKeyDNS no",
       "UserKnownHostsFile #{@ssh_known_hosts}",
+      "",
     ].each do |x|
       ssh_config_file.puts x
     end
