@@ -72,6 +72,10 @@ cat <<EOF | ssh $HYPERVISOR "cat > /tmp/$TARGET_NAME.xml"
     <apic/>
     <pae/>
   </features>
+  <cpu mode='custom' match='exact'>
+    <model fallback='allow'>Westmere</model>
+    <vendor>Intel</vendor>
+  </cpu>
   <clock offset='utc'/>
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
