@@ -4,11 +4,11 @@ HYPERVISOR=$1
 SRC_NAME=$2
 TARGET_NAME=$3
 
-VM_TYPE="pc-1.1"
+VM_TYPE="pc-1.0"
 BRIDGE="virbr0"
 
 usage() {
-  echo "$0 --hypervisor hypervisor --disk src_disk --target target [--type pc-1.1] [--bridge virbr0] [--dnsmasq-host dnsmasq-host]"
+  echo "$0 --hypervisor hypervisor --disk src_disk --target target [--type pc-1.0] [--bridge virbr0] [--dnsmasq-host dnsmasq-host]"
 }
 
 while [ ! -z "$1" ]; do
@@ -61,7 +61,7 @@ cat <<EOF | ssh $HYPERVISOR "cat > /tmp/$TARGET_NAME.xml"
 
 <domain type='kvm'>
   <name>$TARGET_NAME</name>
-  <memory unit='MiB'>1024</memory>
+  <memory>1024000</memory>
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='$VM_TYPE'>hvm</type>
@@ -124,7 +124,7 @@ while true; do
     continue
   fi
 
-  ip=$(ssh $DNSMASQ_HOST cat /var/lib/misc/dnsmasq.leases | egrep "$mac" | awk '{print $3}')
+  ip=$(ssh $DNSMASQ_HOST cat /var/lib/libvirt/dnsmasq/default.leases | egrep "$mac" | awk '{print $3}')
   if [ "$ip" = "" ]; then
     echo "Wait ip for mac address : $mac $count on $DNSMASQ_HOST"
     sleep 2
