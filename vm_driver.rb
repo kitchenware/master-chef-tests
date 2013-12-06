@@ -61,7 +61,12 @@ class VmDriver
   end
 
   def upload_json json
-    upload_file File.join(File.dirname(__FILE__), "json", json), "/tmp/local.json"
+    content = File.read(File.join(File.dirname(__FILE__), "json", json))
+    content = content.gsub(/http:\/\/github.com\/kitchenware\/master-chef.git/, ENV["MASTER_CHEF_URL"]) if ENV["MASTER_CHEF_URL"]
+    tempfile = Tempfile.new 'json'
+    tempfile.write content
+    tempfile.close
+    upload_file tempfile.path, "/tmp/local.json"
     json_path = "/opt/master-chef/etc"
     self.run "sudo mv /tmp/local.json #{json_path}/local.json"
   end
