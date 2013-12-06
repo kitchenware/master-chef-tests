@@ -45,7 +45,7 @@ LOCK_FILE="/tmp/lock_`basename $disk`"
   flock -x -w 300 200 || exit 1
   echo "Cloning $disk to $TARGET_DISK"
   $VIRSH vol-clone --pool default `basename $disk` $TARGET_DISK
-) 200>/var/lock/.myscript.exclusivelock
+) 200>$LOCK_FILE
 
 DISK_PATH=$($VIRSH vol-dumpxml --pool default $TARGET_DISK | grep path | perl -pe 's/.*>(.*)<.*/\1/')
 
