@@ -79,6 +79,7 @@ module VmTestHelper
     if ENV["CHEF_INSTALL"]
       install_user = get_env "USER_FOR_INSTALL"
       prefix = ""
+      prefix += "APT_PROXY=#{ENV["APT_PROXY"]} " if ENV["APT_PROXY"]
       prefix += "PROXY=#{ENV["PROXY"]} " if ENV["PROXY"]
       prefix += "MASTER_CHEF_URL=#{ENV["MASTER_CHEF_URL"]} " if ENV["MASTER_CHEF_URL"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]} " if ENV["MASTER_CHEF_HASH_CODE"]
