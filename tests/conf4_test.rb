@@ -87,7 +87,9 @@ class TestConf4 < Test::Unit::TestCase
     assert curl_http_code == "200"
 
     #mongodb
-    @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
+    wait "mongodb start", 60, 5 do
+      @vm.run("sudo netstat -nltp | grep 27017 | grep LISTEN")
+    end
     mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
     assert_match /\"db\" : \"test\"/, mongo
   end
