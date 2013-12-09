@@ -63,7 +63,6 @@ class TestConf4 < Test::Unit::TestCase
     # deploy and chef rails app
     exec_local "cd #{File.join(File.dirname(__FILE__), "..", "conf4")} && TARGET=#{@vm.ip} cap deploy"
 
-begin
     @http.get 81, "/toto"
     @http.assert_last_response_code 404
     @http.assert_last_response_body_regex /This is a 404 page./
@@ -93,10 +92,6 @@ begin
     end
     mongo = @vm.capture("mongo --eval 'printjson(db.stats())' | grep db")
     assert_match /\"db\" : \"test\"/, mongo
-rescue
-  p $!
-  sleep 1200
-end
   end
 
 end
