@@ -28,7 +28,7 @@ class TestConf2 < Test::Unit::TestCase
     wait "Waiting jenkins init", 90 do
       @http.get 80, "/jenkins/", 'test', 'mypassword'
       @http.assert_last_response_code 200
-      @http.assert_last_response_body_regex /New Job/
+      @http.assert_last_response_body_regex /create new job/
     end
 
     @http.get 80, "/jenkins/pluginManager/installed", 'test', 'mypassword'
@@ -45,7 +45,7 @@ class TestConf2 < Test::Unit::TestCase
     assert_equal crons, new_crons
     @http.get 80, "/jenkins/", 'test', 'mypassword'
     @http.assert_last_response_code 200
-    @http.assert_last_response_body_regex /New Job/
+    @http.assert_last_response_body_regex /create new job/
 
     # Check APR is loaded into tomcat
     catalina_out = @vm.capture("cat /var/log/tomcat/jenkins/catalina.out")
