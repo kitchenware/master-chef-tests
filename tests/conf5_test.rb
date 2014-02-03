@@ -95,10 +95,11 @@ class TestConf5 < Test::Unit::TestCase
 
     last_commit = capture_local("cd /tmp/#{project} && git log -n 1 | head -n 1 | awk '{print $2}'").strip
 
-    @http.get 80, "/api/v3/projects/toto%2F#{project}/events?private_token=#{token}"
-    @http.assert_last_response_code 200
-    assert @http.response.body.include? last_commit
-
+    wait "Waiting publication", 120, 5 do
+      @http.get 80, "/api/v3/projects/toto%2F#{project}/events?private_token=#{token}"
+      @http.assert_last_response_code 200
+      assert @http.response.body.include? last_commit
+    end
   end
 
   def teardown

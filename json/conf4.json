@@ -18,6 +18,9 @@
   ],
   "node_config": {
     "additional_packages": ["build-essential", "libmysqlclient-dev"],
+    "mongodb": {
+      "smallfiles": true
+    },
     "ssh_keys": {
       "deploy": {
         "users": ["user1"],

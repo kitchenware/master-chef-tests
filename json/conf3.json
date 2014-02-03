@@ -11,8 +11,7 @@
     "recipe[node_logstash]",
     "recipe[elasticsearch]",
     "recipe[kibana]",
-    "recipe[kibana::kibana3]",
-    "recipe[kibana::kibana3-eslocal]"
+    "recipe[kibana::eslocal]"
   ],
   "node_config": {
     "timezone": "Europe/Paris",
@@ -28,7 +27,7 @@
     "node_logstash": {
       "configs": {
         "output": [
-          "output://elasticsearch_zeromq://tcp://127.0.0.1:9700"
+          "output://zeromq://tcp://127.0.0.1:9700"
         ]
       },
       "monitor_files": {
@@ -39,9 +38,9 @@
       }
     },
     "symlink_folders": {
-      "/opt/kibana/shared/log": {
-        "target": "/var/log/kibana",
-        "impacted_services": ["kibana"]
+      "/opt/elasticsearch/logs": {
+        "target": "/var/log/elasticsearch",
+        "impacted_services": ["elasticsearch"]
       }
     }
   }

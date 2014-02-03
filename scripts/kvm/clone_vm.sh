@@ -41,17 +41,14 @@ disk="${SRC_NAME}_vda.qcow2"
 TARGET_DISK="${TARGET_NAME}_vda.qcow2"
 
 LOCK_FILE="/tmp/lock_`basename $disk`"
-while true; do
-  if ssh $HYPERVISOR "[ ! -f $LOCK_FILE ] && touch $LOCK_FILE"; then
-    break;
-  fi
-  echo "File $disk is locked (lock file : $LOCK_FILE)"
-  sleep 5
-done
-echo "Cloning $disk to $TARGET_DISK"
-$VIRSH vol-clone --pool default `basename $disk` $TARGET_DISK
-ssh $HYPERVISOR "rm $LOCK_FILE"
 
+cat <<EOF | ssh $HYPERVISOR sh
+(
+  flock -x -w 300 200 || exit 1
+  echo "Cloning $disk to $TARGET_DISK"
+  virsh vol-clone --pool default `basename $disk` $TARGET_DISK
+) 200>$LOCK_FILE
+EOF
 
 DISK_PATH=$($VIRSH vol-dumpxml --pool default $TARGET_DISK | grep path | perl -pe 's/.*>(.*)<.*/\1/')
 
