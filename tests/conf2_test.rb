@@ -25,7 +25,7 @@ class TestConf2 < Test::Unit::TestCase
     @http.get 80, "/jenkins/", 'test', 'mypassword'
     assert_not_equal @http.response.code.to_i, 401
 
-    wait "Waiting jenkins init" do
+    wait "Waiting jenkins init", 90 do
       @http.get 80, "/jenkins/", 'test', 'mypassword'
       @http.assert_last_response_code 200
       @http.assert_last_response_body_regex /New Job/
