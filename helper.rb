@@ -87,7 +87,7 @@ module VmTestHelper
       if ENV["CHEF_LOCAL"]
         source_file = "cat #{File.join(File.dirname(__FILE__), '..', 'master-chef', 'runtime', 'bootstrap.sh')}"
       else
-        source_file = "curl -o /dev/null -s http://rawgithub.com/kitchenware/master-chef/master/runtime/bootstrap.sh"
+        source_file = "curl -s https://raw.github.com/kitchenware/master-chef/master/runtime/bootstrap.sh -o /tmp/bootstrap.sh && cat /tmp/bootstrap.sh"
       end
       exec_local "#{source_file} | ssh #{@ssh_opts} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
       puts "Chef installed"
