@@ -37,12 +37,15 @@ module VmTestHelper
     ssh_config_file.write(File.read(user_ssh_config_file)) if File.exists? user_ssh_config_file
 
     [
+      "Host *",
+      "",
       "ConnectTimeout 5",
       "BatchMode yes",
       "StrictHostKeyChecking no",
       "CheckHostIP no",
       "VerifyHostKeyDNS no",
       "UserKnownHostsFile #{@ssh_known_hosts}",
+      "",
     ].each do |x|
       ssh_config_file.puts x
     end
@@ -76,13 +79,15 @@ module VmTestHelper
     if ENV["CHEF_INSTALL"]
       install_user = get_env "USER_FOR_INSTALL"
       prefix = ""
+      prefix += "APT_PROXY=#{ENV["APT_PROXY"]} " if ENV["APT_PROXY"]
       prefix += "PROXY=#{ENV["PROXY"]} " if ENV["PROXY"]
       prefix += "MASTER_CHEF_URL=#{ENV["MASTER_CHEF_URL"]} " if ENV["MASTER_CHEF_URL"]
       prefix += "MASTER_CHEF_HASH_CODE=#{ENV["MASTER_CHEF_HASH_CODE"]} " if ENV["MASTER_CHEF_HASH_CODE"]
+      prefix += "MASTER_CHEF_DIRECT_ACCESS_URL=#{ENV["MASTER_CHEF_DIRECT_ACCESS_URL"]} " if ENV["MASTER_CHEF_DIRECT_ACCESS_URL"]
       if ENV["CHEF_LOCAL"]
         source_file = "cat #{File.join(File.dirname(__FILE__), '..', 'master-chef', 'runtime', 'bootstrap.sh')}"
       else
-        source_file = "curl -s http://rawgithub.com/kitchenware/master-chef/master/runtime/bootstrap.sh"
+        source_file = "curl -s https://raw.github.com/kitchenware/master-chef/master/runtime/bootstrap.sh -o /tmp/bootstrap.sh && cat /tmp/bootstrap.sh"
       end
       exec_local "#{source_file} | ssh #{@ssh_opts} #{install_user}@#{@vm.ip} \"#{prefix} bash\""
       puts "Chef installed"
